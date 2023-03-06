@@ -1,0 +1,39 @@
+:root{
+    --dominant:#ffffff;
+    --complementary:#258994;
+    --complementaryDim:#6edeea;
+    --accent:#393E41;
+    --error: #B00020;
+}
+
+
+
+.primaryButt{
+    background-color: var(--complementary) !important;
+    border-color: var(--complementary) !important;
+}
+
+.primaryButt:focus{
+    box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px var(--complementaryDim), 0 1px 2px 0 black !important;
+}
+
+.primary{
+    color: var(--complementary) !important;
+}
+
+.accent{
+    color: var(--accent) !important;
+}
+
+.my-input:enabled:focus {
+    box-shadow: 0 0 0 0.2rem var(--complementaryDim) !important;
+    border-color: var(--complementary) !important;
+}
+
+.my-input:enabled:hover {
+    border-color: var(--complementary) !important;
+}
+
+.authErrors{
+    color: var(--error);
+}

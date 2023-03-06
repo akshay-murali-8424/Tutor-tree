@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+   mongodb:
+     image: mongo
+     command: mongod --port 27000
+     restart: always
+     ports:
+      - "27000:27000"
+     environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+   redis:
+     image: redis
+     ports:
+      - "6379:6379"
+   
+     
