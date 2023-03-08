@@ -1,6 +1,7 @@
+
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { ILoginPayload, IRegisterPayload } from '../../../Types/PayloadInterface';
-import { ILoginResponse } from '../../../Types/ResponseInterface';
+import { ICreateCoursePayload, IJoinCoursePayload, ILoginPayload, IRegisterPayload } from '../../../Types/PayloadInterface';
+import { IBasicResponse, ILoginResponse } from '../../../Types/ResponseInterface';
 import { baseUrl } from '../../../urls';
 
 
@@ -47,6 +48,20 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ['admin']
     }),
+    createClass:builder.mutation<IBasicResponse,ICreateCoursePayload>({
+      query:(data)=>({
+        url:'/courses',
+        method:'POST',
+        body:data
+      }),
+      invalidatesTags: ['course']
+    }),
+    joinClass:builder.mutation<IBasicResponse,IJoinCoursePayload>({
+      query:({refCode})=>({
+        url:`/courses/join/${refCode}`,
+        method:'POST',
+      })
+    }),
   })
 })
 
@@ -55,7 +70,9 @@ export const apiSlice = createApi({
 export const {
   useAdminLoginMutation,
   useUserLoginMutation,
-  useUserRegisterMutation
+  useUserRegisterMutation,
+  useCreateClassMutation,
+  useJoinClassMutation
 } = apiSlice
 
 

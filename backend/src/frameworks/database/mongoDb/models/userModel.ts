@@ -1,4 +1,4 @@
-import {Schema,model} from "mongoose"
+import mongoose, {Schema,model} from "mongoose"
 
 const userSchema = new Schema(
     {
@@ -19,10 +19,9 @@ const userSchema = new Schema(
             type:String,
             required: [true,"please add a password"]
         },
+        coursesAsTeacher:[mongoose.Types.ObjectId],
+        coursesAsStudent:[mongoose.Types.ObjectId]
     },
-    {
-        timestamps:true
-    }
 )
 
 const User = model("User",userSchema,"users")

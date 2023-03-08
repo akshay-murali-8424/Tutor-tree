@@ -15,6 +15,8 @@ export const courseRepositoryMongoDB=()=>{
 
    const getCourse=async(id:string)=>await Course.findById(id)
 
+   const getCourseByRefCode=async(referralCode:string)=>await Course.findOne({referralCode})
+   
    const editCourse=async(id:string,name:string,section:string,subject:string)=>{
       await Course.findByIdAndUpdate(id,{
          name,
@@ -26,6 +28,7 @@ export const courseRepositoryMongoDB=()=>{
    return {
       addNewCourse,
       getCourse,
+      getCourseByRefCode,
       editCourse
    }
 }

@@ -23,9 +23,6 @@ const courseSchema = new Schema(
            unique:true
         }
     },
-    {
-        timestamps:true
-    }
 )
 
 const Course = model("Course",courseSchema,"courses")

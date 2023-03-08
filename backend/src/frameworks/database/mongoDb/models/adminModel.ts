@@ -12,9 +12,6 @@ const adminSchema = new Schema(
             required: [true,"please add a password"]
         },
     },
-    {
-        timestamps:true
-    }
 )
 const Admin = model("Admin",adminSchema,"admin")
 export default Admin

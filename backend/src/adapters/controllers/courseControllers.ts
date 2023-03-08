@@ -10,6 +10,11 @@ import { ReferralCodeService } from "../../frameworks/services/referralCodeServi
 import { ReferralCodeInterface } from "../../application/services/referralCodeInterface";
 import { TeachersDbRepository } from "../../application/repositories/teachersDbRepository";
 import { TeachersRepositoryMongoDb } from "../../frameworks/database/mongoDb/repositories/teachersRepositoryMongoDB";
+import { UserDbInterface } from "../../application/repositories/userDbRepository";
+import { UserRepositoryMongoDB } from "../../frameworks/database/mongoDb/repositories/userRepositoryMongoDB";
+import { StudentsDbInterface } from "../../application/repositories/studentsDbRepository";
+import { StudentsRepositoryMongoDB } from "../../frameworks/database/mongoDb/repositories/studentsRepositoryMongoDB";
+import { joinNewCourse } from "../../application/useCases/courses/joinNewCourse";
 
 
 const courseController=(
@@ -21,22 +26,40 @@ referralCodeInterface:ReferralCodeInterface,
 referralCodeService:ReferralCodeService,
 teachersDbRepository:TeachersDbRepository,
 teachersRepositoryImpl:TeachersRepositoryMongoDb,
+userDbRepository: UserDbInterface,
+userDbRepositoryImpl: UserRepositoryMongoDB,
+studentsDbRepository:StudentsDbInterface,
+studentsRepositoryImpl:StudentsRepositoryMongoDB,
 cacheClient:RedisClient
 )=>{
     const dbRepositoryCourse=courseDbRepository(courseDbRepositoryImpl())
     const dbRepositoryTeachers=teachersDbRepository(teachersRepositoryImpl())
+    const dbRepositoryUser=userDbRepository(userDbRepositoryImpl())
+    const dbRepositoryStudents=studentsDbRepository(studentsRepositoryImpl())
     const referralService= referralCodeInterface(referralCodeService())
     const cacheRepository = cacheRepositoryInterface(cacheRepositoryImpl(cacheClient))
-
+   
     const addNewCourse=asyncHandler(async(req:Request,res:Response)=>{
        const {name,section,subject}:{name:string,section:string,subject:string}= req.body
        const userId = req.userId
        if(userId){
-        await addCourse(name,section,subject,userId,dbRepositoryCourse,dbRepositoryTeachers,referralService)
+        await addCourse(name,section,subject,userId,dbRepositoryCourse,dbRepositoryTeachers,dbRepositoryUser,referralService)
          res.json({
             status:"success",
             message:"course added"
          })
+       }
+    })
+
+    const joinCourse=asyncHandler(async(req:Request,res:Response)=>{
+       const refCode:string=req.params.refCode
+       const userId = req.userId
+       if(userId){
+         await joinNewCourse(userId,refCode,dbRepositoryStudents,dbRepositoryUser,dbRepositoryCourse) 
+         res.json({
+            status:"success",
+            message:"joined new course"
+         })     
        }
     })
 
@@ -67,7 +90,8 @@ cacheClient:RedisClient
     return {
         addNewCourse,
         getCourse,
-        modifyCourse
+        modifyCourse,
+        joinCourse
     }
 }
 

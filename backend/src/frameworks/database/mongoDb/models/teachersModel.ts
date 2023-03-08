@@ -8,9 +8,6 @@ const teachersSchema = new Schema(
         },
         teachers:[mongoose.Types.ObjectId]
     },
-    {
-        timestamps:true
-    }
 )
 
 const Teachers = model("Teachers",teachersSchema,"teachers")

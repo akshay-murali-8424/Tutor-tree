@@ -1,5 +1,6 @@
 import { CourseDbInterface } from "../../repositories/courseDbRepository";
 import { TeachersDbRepository } from "../../repositories/teachersDbRepository";
+import { UserDbInterface } from "../../repositories/userDbRepository";
 import { ReferralCodeInterface } from "../../services/referralCodeInterface";
 
 export const addCourse = async(
@@ -9,12 +10,16 @@ export const addCourse = async(
   createdBy: string,
   dbRepositoryCourse: ReturnType<CourseDbInterface>,
   dbRepositoryTeachers:ReturnType<TeachersDbRepository>,
+  dbRepositoryUser:ReturnType<UserDbInterface>,
   referralService:ReturnType<ReferralCodeInterface>
 ) => {
   const referralCode=referralService.generateCode()
   const id=await dbRepositoryCourse.addNewCourse(name, section, subject, createdBy,referralCode);
   const courseId=id.toString()
-  await dbRepositoryTeachers.addTeacher(courseId,createdBy)
+  await Promise.all([
+    dbRepositoryUser.addCourseAsTeacher(createdBy,courseId),
+    dbRepositoryTeachers.addTeacher(courseId,createdBy)
+  ])
 };
 
 export const getCourseById=async(id:string,dbRepositoryCourse: ReturnType<CourseDbInterface>)=>{

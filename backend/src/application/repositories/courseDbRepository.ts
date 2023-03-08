@@ -8,6 +8,8 @@ export const courseDbRepository=(repository:ReturnType<CourseRepositoryMongoDB>)
 
     const getCourse=async(id:string)=>await repository.getCourse(id)
 
+    const getCourseByRefCode=async(referralCode:string)=>await repository.getCourseByRefCode(referralCode)
+
     const editCourse=async(id:string,name:string,section:string,subject:string)=>{
         await repository.editCourse(id,name,section,subject)
     }
@@ -15,6 +17,7 @@ export const courseDbRepository=(repository:ReturnType<CourseRepositoryMongoDB>)
     return {
         addNewCourse,
         getCourse,
+        getCourseByRefCode,
         editCourse
     }
      

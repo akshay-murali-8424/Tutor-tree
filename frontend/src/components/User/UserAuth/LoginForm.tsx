@@ -3,20 +3,22 @@ import { useState } from "react";
 import { Button } from "primereact/button";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import "./LoginForm.css";
 import { useForm } from "react-hook-form";
-import { ILoginPayload } from "../../Types/PayloadInterface";
-import { useUserLoginMutation } from "../../redux/Features/api/apiSlice";
+import { ILoginPayload } from "../../../Types/PayloadInterface";
+import { useUserLoginMutation } from "../../../redux/Features/api/apiSlice";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { ILoginResponse } from "../../Types/ResponseInterface";
-import { setToken } from "../../redux/Features/reducers/userAuthSlice";
+import { ILoginResponse } from "../../../Types/ResponseInterface";
+import { setToken } from "../../../redux/Features/reducers/userAuthSlice";
+        
 
 const schema = yup.object().shape({
   email: yup.string().required().email(),
   password: yup.string().required(),
 });
 
-export default function RegisterForm() {
+export default function LoginForm() {
   const {
     register,
     handleSubmit,
@@ -34,10 +36,9 @@ export default function RegisterForm() {
   const submitHandler =async (data:ILoginPayload) => {
     try{
       const res:ILoginResponse=await verifyLogin(data).unwrap()
-      console.log(res)
       if(res.status ==='success'){
         dispatch(setToken(res));
-        navigate('/')
+        navigate('/home')
       }
     }catch(err:any){
       setLoginError(err.data.message)
@@ -52,14 +53,15 @@ export default function RegisterForm() {
           alt="hyper"
           height={140}
         />
-        <div className=" text-3xl font-medium mb-3 accent">Register</div>
+        <div className=" text-3xl font-medium mb-3 accent">Welcome Back</div>
         <span className="text-600 font-medium line-height-3">
-          Already have an account?
+          Don't have an account?
         </span>
-        <Link to={"/login"}
+        <Link
           className="font-medium no-underline ml-2 cursor-pointer primary"
+          to={"/register"}
         >
-          Sign in
+          Create today!
         </Link>
       </div>
 
@@ -67,7 +69,7 @@ export default function RegisterForm() {
         <form onSubmit={handleSubmit(submitHandler)}>
 
           <div className="flex flex-column gap-2">
-            <label htmlFor="email" className="accent">email</label>
+            <label htmlFor="email" className="accent">Email</label>
             <InputText id="email" aria-describedby="email-help" className="my-input" {...register("email")}/>
             <small className="authErrors">
               {errors.email?.message}
@@ -75,7 +77,7 @@ export default function RegisterForm() {
           </div>
 
           <div className="flex flex-column gap-2">
-            <label htmlFor="password" className="accent">password</label>
+            <label htmlFor="password" className="accent">Password</label>
             <InputText id="password" aria-describedby="password-help" className="my-input" {...register("password")}/>
             <small className="authErrors">
               {errors.password?.message}
