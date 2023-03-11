@@ -12,7 +12,7 @@ const userRouter=(redisClient:RedisClient)=>{
 
     const controller = userController(userDbRepository,userRepositoryMongoDB,cacheRepositoryInterface,redisRepository,redisClient)
     
-    router.get('/user/:id',redisCachingMiddleware(redisClient,'user'),controller.getUser)
+    router.get('/',redisCachingMiddleware(redisClient,'user'),controller.getUser)
 
     return router
 }

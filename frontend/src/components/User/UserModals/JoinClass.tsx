@@ -11,7 +11,7 @@ import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
 
 const schema = yup.object().shape({
-  refCode: yup.string().required(),
+  refCode: yup.string().required("Please provide your referral code"),
 });
 
 function JoinClass({joinVisible, setJoinVisible}:{joinVisible:boolean,setJoinVisible:Dispatch<SetStateAction<boolean>>}) {
@@ -26,16 +26,18 @@ function JoinClass({joinVisible, setJoinVisible}:{joinVisible:boolean,setJoinVis
     resolver: yupResolver(schema),
   });
 
-  const [joinClass] = useJoinClassMutation()
+  const [joinClass,{isLoading}] = useJoinClassMutation()
 
   const submitHandler=async(data:IJoinCoursePayload)=>{
-    try{
-      const res:IBasicResponse=await joinClass(data).unwrap()
-      if(res.status==='success')
-      setJoinVisible(false)
-    }catch(err:any){
-      console.log(err)
-       toast.current?.show({ severity:'error', detail: `${err.data.message}` })
+    if(!isLoading){
+      try{
+        const res:IBasicResponse=await joinClass(data).unwrap()
+        if(res.status==='success')
+        setJoinVisible(false)
+      }catch(err:any){
+        console.log(err)
+         toast.current?.show({ severity:'error', detail: `${err.data.message}` })
+      }
     }
   }
 

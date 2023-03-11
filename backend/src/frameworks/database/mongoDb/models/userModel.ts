@@ -19,8 +19,14 @@ const userSchema = new Schema(
             type:String,
             required: [true,"please add a password"]
         },
-        coursesAsTeacher:[mongoose.Types.ObjectId],
-        coursesAsStudent:[mongoose.Types.ObjectId]
+        coursesAsTeacher:{
+          type:[mongoose.Types.ObjectId],
+          ref:'Course'
+        },
+        coursesAsStudent:{
+          type:[mongoose.Types.ObjectId],
+          ref:'Course'
+        }
     },
 )
 

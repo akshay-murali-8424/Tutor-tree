@@ -18,15 +18,17 @@ const userController = (
   const cacheRepository = cacheRepositoryInterface(cacheRepositoryImpl(cacheClient))
 
   const getUser = asyncHandler(async (req: Request, res: Response) => {
-    const userId = req.params.id;
-    const user = await findById(userId, dbRepositoryUser);
-    const cacheOptions={
-        key:`user-${user._id}`,
-        expireTimeSec:600,
-        data: JSON.stringify(user)
+    const userId = req.userId;
+    if(userId){
+      const user = await findById(userId, dbRepositoryUser);
+      const cacheOptions={
+          key:`user-${user._id}`,
+          expireTimeSec:600,
+          data: JSON.stringify(user)
+      }
+      cacheRepository.setCache(cacheOptions)
+      res.json(user);
     }
-    cacheRepository.setCache(cacheOptions)
-    res.json(user);
   });
 
   return {

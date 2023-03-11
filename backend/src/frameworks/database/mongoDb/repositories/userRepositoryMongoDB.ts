@@ -12,7 +12,7 @@ export const userRepositoryMongoDB=()=>{
 
     const addUser = async(user:{firstName:string,lastName:string,email:string,password:string})=> await User.create(user)
 
-    const getUserById = async(id:string)=> await User.findById(id) 
+    const getUserById = async(id:string)=> await User.findById(id).populate(['coursesAsStudent','coursesAsTeacher'])
 
     const addCourseAsTeacher = async(_id:string,courseId:string)=>{
         const {modifiedCount}= await User.updateOne({_id},{

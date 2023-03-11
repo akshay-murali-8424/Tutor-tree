@@ -4,9 +4,12 @@ const teachersSchema = new Schema(
     {
         course:{
             type:mongoose.Schema.Types.ObjectId,
-            ref:'courses'
+            ref:'Course'
         },
-        teachers:[mongoose.Types.ObjectId]
+        teachers:{
+            type:[mongoose.Types.ObjectId],
+            ref:'User'
+        }
     },
 )
 

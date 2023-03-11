@@ -16,7 +16,7 @@ const courseSchema = new Schema(
         },
         createdBy:{
             type:mongoose.Schema.Types.ObjectId,
-            ref:'users'
+            ref:'User'
         },
         referralCode:{
            type:String,

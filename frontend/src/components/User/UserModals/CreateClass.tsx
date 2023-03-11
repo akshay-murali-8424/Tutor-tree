@@ -26,19 +26,21 @@ function CreateClass({createVisible, setCreateVisible}:{createVisible:boolean,se
         resolver: yupResolver(schema),
       });
 
-      const [createClass]=useCreateClassMutation()
+      const [createClass,{isLoading}]=useCreateClassMutation()
 
 
   const [reqError,setReqError]=useState('')
 
   const submitHandler =async (data:ICreateCoursePayload) => {
-    try{
-      const res:IBasicResponse = await createClass(data).unwrap()
-      if(res.status ==='success'){
-        setCreateVisible(false)
+    if(!isLoading){
+      try{
+        const res:IBasicResponse = await createClass(data).unwrap()
+        if(res.status ==='success'){
+          setCreateVisible(false)
+        }
+      }catch(err:any){
+        setReqError(err.data.message)
       }
-    }catch(err:any){
-      setReqError(err.data.message)
     }
   };
 

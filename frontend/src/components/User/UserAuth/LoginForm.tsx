@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { ILoginResponse } from "../../../Types/ResponseInterface";
 import { setToken } from "../../../redux/Features/reducers/userAuthSlice";
+import GoogleAuthComponent from "./GoogleAuthComponent";
         
 
 const schema = yup.object().shape({
@@ -27,21 +28,23 @@ export default function LoginForm() {
     resolver: yupResolver(schema),
   });
 
-  const [verifyLogin]=useUserLoginMutation()
+  const [verifyLogin,{isLoading}]=useUserLoginMutation()
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
   const [loginError,setLoginError]=useState('')
 
   const submitHandler =async (data:ILoginPayload) => {
-    try{
-      const res:ILoginResponse=await verifyLogin(data).unwrap()
-      if(res.status ==='success'){
-        dispatch(setToken(res));
-        navigate('/home')
+    if(!isLoading){
+      try{
+        const res:ILoginResponse=await verifyLogin(data).unwrap()
+        if(res.status ==='success'){
+          dispatch(setToken(res));
+          navigate('/home')
+        }
+      }catch(err:any){
+        setLoginError(err.data.message)
       }
-    }catch(err:any){
-      setLoginError(err.data.message)
     }
   };
 
@@ -66,7 +69,7 @@ export default function LoginForm() {
       </div>
 
       <div>
-        <form onSubmit={handleSubmit(submitHandler)}>
+        <form onSubmit={handleSubmit(submitHandler)} className="mb-4">
 
           <div className="flex flex-column gap-2">
             <label htmlFor="email" className="accent">Email</label>
@@ -78,7 +81,7 @@ export default function LoginForm() {
 
           <div className="flex flex-column gap-2">
             <label htmlFor="password" className="accent">Password</label>
-            <InputText id="password" aria-describedby="password-help" className="my-input" {...register("password")}/>
+            <InputText id="password" type="password" aria-describedby="password-help" className="my-input" {...register("password")}/>
             <small className="authErrors">
               {errors.password?.message}
             </small>
@@ -97,6 +100,9 @@ export default function LoginForm() {
             </small>
           <Button label="Sign In" className="w-full primaryButt mt-2" />
         </form>
+        <div className="flex justify-content-center">
+        <GoogleAuthComponent/>
+        </div>
       </div>
     </div>
   );

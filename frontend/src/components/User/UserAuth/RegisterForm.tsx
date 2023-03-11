@@ -34,20 +34,22 @@ export default function RegisterForm() {
   });
   
   const [registerError,setRegisterError] = useState('')
-  const [registerUser]=useUserRegisterMutation(); 
+  const [registerUser,{isLoading}]=useUserRegisterMutation(); 
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
   const submitHandler =async (data:IRegisterPayload) => {
-    try{
-      const res:ILoginResponse=await registerUser(data).unwrap()
-      if(res.status ==='success'){
-        dispatch(setToken(res));
-        navigate('/home')
+    if(!isLoading){
+      try{
+        const res:ILoginResponse=await registerUser(data).unwrap()
+        if(res.status ==='success'){
+          dispatch(setToken(res));
+          navigate('/home')
+        }
+      }catch(err:any){
+        setRegisterError(err.data.message)
       }
-    }catch(err:any){
-      setRegisterError(err.data.message)
     }
   };
 
