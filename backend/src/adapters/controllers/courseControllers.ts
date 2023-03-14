@@ -8,13 +8,14 @@ import { RedisRepository } from "../../frameworks/database/redis/setCache";
 import { addCourse, editCourse, getCourseById } from "../../application/useCases/courses/courseCrud";
 import { ReferralCodeService } from "../../frameworks/services/referralCodeService";
 import { ReferralCodeInterface } from "../../application/services/referralCodeInterface";
-import { TeachersDbRepository } from "../../application/repositories/teachersDbRepository";
 import { TeachersRepositoryMongoDb } from "../../frameworks/database/mongoDb/repositories/teachersRepositoryMongoDB";
 import { UserDbInterface } from "../../application/repositories/userDbRepository";
 import { UserRepositoryMongoDB } from "../../frameworks/database/mongoDb/repositories/userRepositoryMongoDB";
 import { StudentsDbInterface } from "../../application/repositories/studentsDbRepository";
 import { StudentsRepositoryMongoDB } from "../../frameworks/database/mongoDb/repositories/studentsRepositoryMongoDB";
 import { joinNewCourse } from "../../application/useCases/courses/joinNewCourse";
+import { getStudentsAndTeachers } from "../../application/useCases/courses/peopleCrud";
+import { TeachersDbInterface } from "../../application/repositories/teachersDbRepository";
 
 
 const courseController=(
@@ -24,7 +25,7 @@ cacheRepositoryInterface:CacheRepositoryInterface,
 cacheRepositoryImpl:RedisRepository,
 referralCodeInterface:ReferralCodeInterface,
 referralCodeService:ReferralCodeService,
-teachersDbRepository:TeachersDbRepository,
+teachersDbRepository:TeachersDbInterface,
 teachersRepositoryImpl:TeachersRepositoryMongoDb,
 userDbRepository: UserDbInterface,
 userDbRepositoryImpl: UserRepositoryMongoDB,
@@ -72,9 +73,7 @@ cacheClient:RedisClient
         data: JSON.stringify(course)
        }
        await cacheRepository.setCache(cacheOptions)
-       res.json({
-        course
-       })
+       res.json(course)
     })
 
     const modifyCourse=asyncHandler(async(req:Request,res:Response)=>{
@@ -87,11 +86,18 @@ cacheClient:RedisClient
       })
     })
 
+    const getPeople = asyncHandler(async(req:Request,res:Response)=>{
+      const id = req.params.id
+      const people = await getStudentsAndTeachers(id,dbRepositoryTeachers,dbRepositoryStudents)
+      res.json(people)
+    })
+
     return {
         addNewCourse,
         getCourse,
         modifyCourse,
-        joinCourse
+        joinCourse,
+        getPeople
     }
 }
 

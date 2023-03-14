@@ -7,8 +7,13 @@ export const teachersRepositoryMongoDb=()=>{
       },{upsert:true})
    }
 
+   const getTeachers=async(courseId:string)=>
+      await Teachers.findOne({course:courseId}).populate('teachers')
+
+
    return {
-    addTeacher
+    addTeacher,
+    getTeachers
    }
 }
 

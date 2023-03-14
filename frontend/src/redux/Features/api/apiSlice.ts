@@ -1,7 +1,8 @@
 
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { CourseInterface } from '../../../Types/CourseInterface';
 import { ICreateCoursePayload, IJoinCoursePayload, ILoginPayload, IRegisterPayload,} from '../../../Types/PayloadInterface';
-import { IBasicResponse, IGetUserAndCoursesResponse, ILoginResponse } from '../../../Types/ResponseInterface';
+import { IBasicResponse, IGetPeople, IGetUserAndCoursesResponse, ILoginResponse } from '../../../Types/ResponseInterface';
 import { baseUrl } from '../../../urls';
 
 
@@ -22,7 +23,7 @@ const baseQuery = fetchBaseQuery({
 export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery,
-  tagTypes: ['user', 'admin', 'course'],
+  tagTypes: ['user', 'admin', 'course','students','teachers'],
   endpoints: (builder) => ({
     userLogin: builder.mutation<ILoginResponse, ILoginPayload>({
       query: (data) => ({
@@ -39,6 +40,14 @@ export const apiSlice = createApi({
         body: data
       }),
       invalidatesTags: ['user']
+    }),
+    signInWithGoogle:builder.mutation<ILoginResponse,{credential:string}>({
+      query:(data)=>({
+        url:'/auth/sign-in-with-google',
+        method:'POST',
+        body:data
+      }),
+      invalidatesTags:['user']
     }),
     adminLogin: builder.mutation<ILoginResponse, IRegisterPayload>({
       query: (data) => ({
@@ -61,11 +70,19 @@ export const apiSlice = createApi({
         url:`/courses/join/${refCode}`,
         method:'POST',
       }),
-      invalidatesTags:['user']
+      invalidatesTags:['user','course']
     }),
     getUserAndCourses:builder.query<IGetUserAndCoursesResponse,void>({
       query:()=> '/user',
-      providesTags:['user']
+      providesTags:['user','course']
+    }),
+    getCourse:builder.query<CourseInterface,{id:string | undefined}>({
+      query:({id})=>`/courses/${id}`,
+      providesTags:['course']
+    }),
+    getPeople:builder.query<IGetPeople,{id:string | undefined}>({
+      query:({id})=>`/courses/${id}/people`,
+      providesTags:['students','teachers']
     }),
   })
 })
@@ -77,7 +94,10 @@ export const {
   useUserRegisterMutation,
   useCreateClassMutation,
   useJoinClassMutation,
-  useGetUserAndCoursesQuery
+  useGetUserAndCoursesQuery,
+  useGetCourseQuery,
+  useSignInWithGoogleMutation,
+  useGetPeopleQuery
 } = apiSlice
 
 

@@ -4,8 +4,11 @@ export const studentsDbRepository=(repository:ReturnType<StudentsRepositoryMongo
 
     const addStudent=async(courseId:string,studentId:string)=>await repository.addStudent(courseId,studentId)
 
+    const getStudents=async(courseId:string)=> await repository.getStudents(courseId)
+
     return {
-        addStudent
+        addStudent,
+        getStudents
     }
 }
 

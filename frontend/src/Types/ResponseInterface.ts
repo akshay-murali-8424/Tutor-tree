@@ -1,4 +1,6 @@
 import { CourseInterface } from "./CourseInterface";
+import { StudentsInterface } from "./StudentsInterface";
+import { TeachersInterface } from "./TeachersInterface";
 import { UserInterface } from "./UserInterface";
 
 export interface IBasicResponse{
@@ -16,3 +18,9 @@ export interface IGetUserAndCoursesResponse extends Omit<UserInterface,'coursesA
     coursesAsTeacher:CourseInterface[],
     coursesAsStudent:CourseInterface[]
 }
+
+export interface IGetPeople{
+    teachers:TeachersInterface,
+    students:StudentsInterface
+}
+

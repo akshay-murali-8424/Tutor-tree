@@ -17,7 +17,6 @@ const userSchema = new Schema(
         },
         password:{
             type:String,
-            required: [true,"please add a password"]
         },
         coursesAsTeacher:{
           type:[mongoose.Types.ObjectId],
@@ -26,6 +25,10 @@ const userSchema = new Schema(
         coursesAsStudent:{
           type:[mongoose.Types.ObjectId],
           ref:'Course'
+        },
+        isGoogleUser:{
+            type:Boolean,
+            default:false
         }
     },
 )

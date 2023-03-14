@@ -37,7 +37,7 @@ export default function LoginForm() {
   const submitHandler =async (data:ILoginPayload) => {
     if(!isLoading){
       try{
-        const res:ILoginResponse=await verifyLogin(data).unwrap()
+        const res=await verifyLogin(data).unwrap()
         if(res.status ==='success'){
           dispatch(setToken(res));
           navigate('/home')
@@ -49,7 +49,9 @@ export default function LoginForm() {
   };
 
   return (
+   
     <div className="surface-card p-4 shadow-2 border-round w-full lg:w-4 mx-auto my-8">
+      
       <div className="text-center mb-5">
         <img
           src="https://res.cloudinary.com/dzgqefrmc/image/upload/v1678038349/Tutor_Tree-1_2_f7jlp2.png"

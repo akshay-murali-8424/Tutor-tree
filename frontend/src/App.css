@@ -4,6 +4,7 @@
     --complementaryDim:#cbe7ea;
     --accent:#393E41;
     --error: #B00020;
+    --gray: #e3e5e6;
 }
 
 
@@ -55,6 +56,11 @@
     color: var(--complementary) !important;
 }
 
+.raisedButt{
+    color: var(--complementary) !important;
+    background-color: #ffffff !important; 
+}
+
 .textButt:focus {
     box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px var(--complementaryDim), 0 1px 2px 0 black !important;
 }
@@ -102,9 +108,40 @@
 }
 
 .sidebarOptions:hover{
-  background-color: var(--complementaryDim);
+  background-color: var(--gray);
 }
 
 .sidebarOptions:active{
-    background-color: var(--complementary);
+    background-color: var(--complementaryDim);
+}
+
+.activeOption{
+    background-color: var(--complementaryDim);
+}
+
+.selectedClassOption{
+    border-bottom: 2px solid var(--complementary) !important;
+    color: var(--complementary) !important;
+    background-color: var(--complementaryDim) !important;
+}
+.selectedClassOption span{
+    color: var(--complementary) !important;
+}
+
+.classOption{
+  
+  opacity: 0.8;
+}
+
+.classOption:hover{
+    opacity: 1;
+    background-color: var(--gray);
+}
+
+.classOption span{
+   color: var(--accent);
+}
+
+.primaryHr {
+    border-top:2px solid var(--complementary)
 }

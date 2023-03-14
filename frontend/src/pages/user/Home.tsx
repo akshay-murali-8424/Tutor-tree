@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { Navigate } from 'react-router-dom'
-import NavBar from '../../components/User/UserNavBar/NavBar'
 import { useGetUserAndCoursesQuery } from '../../redux/Features/api/apiSlice'
 import { selectuserAuth } from '../../redux/Features/reducers/userAuthSlice'
 import { ProgressSpinner } from 'primereact/progressspinner';
@@ -22,12 +21,8 @@ function Home() {
       if(data){
         dispatch(setUserCourses(data))
       }
-      const firstLetter=data?.firstName[0]
       return (
-        <>
-        <NavBar firstLetter={firstLetter} data={data}/>
         <ClassCard data={data}/>
-        </>
       )
     }
   }else{

@@ -10,9 +10,13 @@ import { confirmDialog, ConfirmDialog } from 'primereact/confirmdialog'
 import { useDispatch } from "react-redux";
 import { deleteToken } from "../../../redux/Features/reducers/userAuthSlice";
 import { useNavigate } from "react-router-dom";
-import { IGetUserAndCoursesResponse } from "../../../Types/ResponseInterface";
+import { useGetUserAndCoursesQuery } from "../../../redux/Features/api/apiSlice";  
+import { ProgressSpinner } from "primereact/progressspinner";
+import CourseNavBarOptions from "./CourseNavBarOptions";
 
-function NavBar({firstLetter,data}:{firstLetter:string | undefined,data:IGetUserAndCoursesResponse | undefined}) {
+function NavBar({course}:{course:boolean}) {
+  const { data, isLoading, isFetching, isSuccess, isError, error, refetch } = useGetUserAndCoursesQuery()
+
   const menu = useRef<Menu>(null);
   const userAvatarMenu=useRef<Menu>(null);
   const dispatch = useDispatch()
@@ -55,18 +59,29 @@ function NavBar({firstLetter,data}:{firstLetter:string | undefined,data:IGetUser
       }
     }
   ]
+  if(isLoading || isFetching){
+    return(
+      <div className="flex justify-content-center" style={{marginTop:"16rem"}}>
+          <ProgressSpinner />
+      </div>
+    )
+  }else{
   return (
     <div
-      className="flex flex-row flex-wrap card-container blue-container justify-content-between"
-      style={{ borderBottom: "1px solid black" }}
+      className="flex flex-row flex-wrap card-container blue-container"
+      style={{ borderBottom: "0.0625rem solid #e0e0e0"}}
     >
-      <div className="card flex justify-content-center align-items-center">
+      <div className="card flex justify-content-start align-items-center lg:w-2">
         <SideBar data={data}/>
         <span style={{fontSize:"larger", color:"var(--accent)"}}>Tutor Tree</span>
       </div>
-
-      <div className="flex align-items-center">
-        <Menu model={items} popup ref={menu} />
+      <div className="lg:w-8 flex justify-content-center" >
+      {
+        course && <CourseNavBarOptions/>
+      }
+      </div>
+      <div className="flex align-items-center lg:w-2 justify-content-end">
+        <Menu model={items} popup ref={menu} />   
         <Button
           icon={PrimeIcons.PLUS}
           rounded
@@ -79,7 +94,7 @@ function NavBar({firstLetter,data}:{firstLetter:string | undefined,data:IGetUser
         <ConfirmDialog/>
         <Menu model={userAvatarItems} popup ref={userAvatarMenu} />
         <Avatar
-          label={firstLetter}
+          label={data?.firstName[0]}
           size="large"
           className="primaryButt mr-2"
           shape="circle"
@@ -96,6 +111,7 @@ function NavBar({firstLetter,data}:{firstLetter:string | undefined,data:IGetUser
       </div>
     </div>
   );
+  }
 }
 
 export default NavBar;

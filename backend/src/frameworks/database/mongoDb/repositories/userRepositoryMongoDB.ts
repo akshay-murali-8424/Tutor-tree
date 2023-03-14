@@ -1,5 +1,5 @@
 import { HttpStatus } from "../../../../types/httpStatus"
-import UserInterface from "../../../../types/userInterface"
+import {UserInterface} from "../../../../types/userInterface"
 import AppError from "../../../../utils/appError"
 import User from "../models/userModel"
 
@@ -10,7 +10,7 @@ export const userRepositoryMongoDB=()=>{
        return user
     }
 
-    const addUser = async(user:{firstName:string,lastName:string,email:string,password:string})=> await User.create(user)
+    const addUser = async(user:{firstName:string,lastName:string,email:string,password?:string})=> await User.create(user)
 
     const getUserById = async(id:string)=> await User.findById(id).populate(['coursesAsStudent','coursesAsTeacher'])
 

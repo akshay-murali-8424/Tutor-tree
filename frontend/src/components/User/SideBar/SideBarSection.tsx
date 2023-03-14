@@ -1,6 +1,6 @@
 import { Avatar } from "primereact/avatar";
-import React from "react";
-import { Link } from "react-router-dom";
+
+import { Link, useLocation } from "react-router-dom";
 import { CourseInterface } from "../../../Types/CourseInterface";
 
 function SideBarSection({
@@ -10,13 +10,19 @@ function SideBarSection({
   courses: CourseInterface[];
   title: string;
 }) {
+  const {pathname}= useLocation()
+  const courseId = pathname.split('/')[3]
   return (
     <div className="mt-3 accent">
       <span className="accent ml-3">{title}</span>
       <div className="mt-1">
         {courses.map((course) => {
+          let activeOption:string=""
+          if(courseId===course._id){
+            activeOption="activeOption"
+          }
           return (
-            <Link className="sidebarOptions" to={'/'}>
+            <Link className={`sidebarOptions ${activeOption}`} to={`/course/stream/${course._id}`}>
               <Avatar
                 label={course.name[0]}
                 size="normal"

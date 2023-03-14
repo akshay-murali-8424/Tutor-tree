@@ -40,8 +40,9 @@ const coursesRouter=(redisClient:RedisClient)=>{
     .patch(controller.modifyCourse)
     
     router.post('/join/:refCode',controller.joinCourse)
-    
 
+    router.get('/:id/people',controller.getPeople)
+    
     return router
 }
 

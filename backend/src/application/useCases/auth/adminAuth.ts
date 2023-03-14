@@ -10,7 +10,7 @@ const adminLogin=async(
   adminRepository:ReturnType<AdminDbInterface>,
   authService:ReturnType<AuthServiceInterface>)=>{
     
-   const admin:AdminInterface | null= await adminRepository.getAdminByEmail(email)
+   const admin= await adminRepository.getAdminByEmail(email)
    if(!admin){
      throw new  AppError("invalid credentials", HttpStatus.UNAUTHORIZED)
    }

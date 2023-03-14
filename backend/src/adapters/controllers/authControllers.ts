@@ -7,17 +7,24 @@ import { AdminDbInterface } from '../../application/repositories/adminDbReposito
 import { AuthServiceInterface } from '../../application/services/authServiceInterface'
 import { UserDbInterface } from '../../application/repositories/userDbRepository'
 import { UserRepositoryMongoDB } from '../../frameworks/database/mongoDb/repositories/userRepositoryMongoDB'
-import { userLogin, userRegister } from '../../application/useCases/auth/userAuth'
+import { signInWithGoogle, userLogin, userRegister } from '../../application/useCases/auth/userAuth'
+import { GoogleAuthServiceInterface } from '../../application/services/googleAuthServiceInterface'
+import { GoogleAuthService } from '../../frameworks/services/googleAuthService'
 
 const authController = (adminDbRepository: AdminDbInterface,
     adminDbRepositoryImpl: AdminRepositoryMongoDB,
     authServiceInterface: AuthServiceInterface,
     authServiceImpl: AuthService,
     userDbRepository: UserDbInterface,
-    userDbRepositoryImpl : UserRepositoryMongoDB) => {
+    userDbRepositoryImpl : UserRepositoryMongoDB,
+    googleAuthServiceInterface:GoogleAuthServiceInterface,
+    googleAuthServiceImpl:GoogleAuthService,
+    ) => {
+
     const dbRepositoryUser = userDbRepository(userDbRepositoryImpl())
     const dbRepositoryAdmin = adminDbRepository(adminDbRepositoryImpl())
     const authService = authServiceInterface(authServiceImpl())
+    const googleAuthService = googleAuthServiceInterface(googleAuthServiceImpl())
 
     const loginAdmin =asyncHandler(async(req: Request, res: Response) => {
         const { email, password }: { email: string, password: string } = req.body
@@ -39,7 +46,7 @@ const authController = (adminDbRepository: AdminDbInterface,
         })
     })
 
-    const LoginUser = asyncHandler(async(req:Request,res:Response)=>{
+    const loginUser = asyncHandler(async(req:Request,res:Response)=>{
         const {email,password}:{email:string,password:string} = req.body;
         const token = await userLogin(email,password,dbRepositoryUser,authService)
         res.json({
@@ -49,10 +56,21 @@ const authController = (adminDbRepository: AdminDbInterface,
         })
     })
 
+   const loginWithGoogle =asyncHandler(async(req:Request,res:Response)=>{
+       const {credential}:{credential:string} = req.body
+       const token = await signInWithGoogle(credential,googleAuthService,dbRepositoryUser,authService)
+       res.json({
+        status:"success",
+        message:"user verified",
+        token
+      })
+   })
+
     return {
         loginAdmin,
         registerUser,
-        LoginUser
+        loginUser,
+        loginWithGoogle
     }
 
 }

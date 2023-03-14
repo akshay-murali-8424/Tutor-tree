@@ -1,5 +1,5 @@
 import { CourseDbInterface } from "../../repositories/courseDbRepository";
-import { TeachersDbRepository } from "../../repositories/teachersDbRepository";
+import { TeachersDbInterface } from "../../repositories/teachersDbRepository";
 import { UserDbInterface } from "../../repositories/userDbRepository";
 import { ReferralCodeInterface } from "../../services/referralCodeInterface";
 
@@ -9,7 +9,7 @@ export const addCourse = async(
   subject: string,
   createdBy: string,
   dbRepositoryCourse: ReturnType<CourseDbInterface>,
-  dbRepositoryTeachers:ReturnType<TeachersDbRepository>,
+  dbRepositoryTeachers:ReturnType<TeachersDbInterface>,
   dbRepositoryUser:ReturnType<UserDbInterface>,
   referralService:ReturnType<ReferralCodeInterface>
 ) => {

@@ -5,12 +5,17 @@ import { PrimeIcons } from 'primereact/api';
 import SideBarSection from "./SideBarSection";
 import { Link } from "react-router-dom";
 import { IGetUserAndCoursesResponse } from "../../../Types/ResponseInterface";
+import { CourseInterface } from "../../../Types/CourseInterface";
         
 
 function SideBar({data}:{data:IGetUserAndCoursesResponse | undefined}) {
     const [sideVisible, setSideVisible] = useState<boolean>(false);
-    const coursesAsStudent = data?.coursesAsStudent
-    const coursesAsTeacher = data?.coursesAsTeacher
+    let coursesAsStudent:CourseInterface[] | []= []
+    let coursesAsTeacher:CourseInterface[] | []= []
+    if(data){
+      coursesAsStudent=data.coursesAsStudent
+      coursesAsTeacher=data.coursesAsTeacher
+    }
   return (
     <>
     <Sidebar visible={sideVisible} onHide={() => setSideVisible(false)} style={{width:"17rem"}}>
@@ -20,9 +25,8 @@ function SideBar({data}:{data:IGetUserAndCoursesResponse | undefined}) {
         Classes
       </Link>
     </div>
-    {coursesAsStudent&&<SideBarSection courses={coursesAsStudent} title="Enrolled"/>}
-    {coursesAsTeacher&&<SideBarSection courses={coursesAsTeacher} title="Teaching"/>}
-
+    {coursesAsStudent?.length>0&&<SideBarSection courses={coursesAsStudent} title="Enrolled"/>}
+    {coursesAsTeacher?.length>0&&<SideBarSection courses={coursesAsTeacher} title="Teaching"/>}
   </Sidebar>
   <Button icon={PrimeIcons.TH_LARGE} rounded text severity="secondary" className="ml-2" style={{ fontSize: '15px',margin:"5px "}} onClick={() => setSideVisible(true)}/>
   </>

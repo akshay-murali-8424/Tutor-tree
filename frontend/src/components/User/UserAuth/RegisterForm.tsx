@@ -42,7 +42,7 @@ export default function RegisterForm() {
   const submitHandler =async (data:IRegisterPayload) => {
     if(!isLoading){
       try{
-        const res:ILoginResponse=await registerUser(data).unwrap()
+        const res=await registerUser(data).unwrap()
         if(res.status ==='success'){
           dispatch(setToken(res));
           navigate('/home')

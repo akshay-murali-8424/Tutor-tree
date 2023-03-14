@@ -2,6 +2,7 @@ import './ClassCard.css'
 import { Card } from 'primereact/card';
 import { IGetUserAndCoursesResponse } from '../../../Types/ResponseInterface';
 import { CourseInterface } from '../../../Types/CourseInterface';
+import { Link } from 'react-router-dom';
 
 
 export default function ClassCard({data}:{data:IGetUserAndCoursesResponse | undefined}) {
@@ -22,8 +23,10 @@ export default function ClassCard({data}:{data:IGetUserAndCoursesResponse | unde
         {   
             courses.map((course)=>{
             return(
+                <Link to={`/course/stream/${course._id}`} style={{textDecoration:"none"}}>
                 <Card title={course.name} subTitle={course.section} footer={footer} header={header} style={{margin:"1rem"}} className="cardShadow cardStyle md:w-17rem">
                 </Card>
+                </Link>
             )
            })
         }
