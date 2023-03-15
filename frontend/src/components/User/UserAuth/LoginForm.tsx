@@ -9,7 +9,6 @@ import { ILoginPayload } from "../../../Types/PayloadInterface";
 import { useUserLoginMutation } from "../../../redux/Features/api/apiSlice";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { ILoginResponse } from "../../../Types/ResponseInterface";
 import { setToken } from "../../../redux/Features/reducers/userAuthSlice";
 import GoogleAuthComponent from "./GoogleAuthComponent";
         

@@ -122,8 +122,13 @@
 .selectedClassOption{
     border-bottom: 2px solid var(--complementary) !important;
     color: var(--complementary) !important;
+    
+}
+
+.selectedClassOption:hover{
     background-color: var(--complementaryDim) !important;
 }
+
 .selectedClassOption span{
     color: var(--complementary) !important;
 }

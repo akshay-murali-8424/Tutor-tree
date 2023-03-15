@@ -20,6 +20,9 @@ export const joinNewCourse = async(
     if(isUserTeacher){
       throw new AppError("You are already a teacher in this class",HttpStatus.CONFLICT)
     }
-    await dbRepositoryUser.addCourseAsStudent(userId,courseId)
+    const {modifiedCount} = await dbRepositoryUser.addCourseAsStudent(userId,courseId)
+    if(!modifiedCount){
+      throw new AppError("You are already a member of this class",HttpStatus.CONFLICT)
+    }
     await dbRepositoryStudents.addStudent(courseId,userId)
 };

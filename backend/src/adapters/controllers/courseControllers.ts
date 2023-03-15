@@ -14,7 +14,7 @@ import { UserRepositoryMongoDB } from "../../frameworks/database/mongoDb/reposit
 import { StudentsDbInterface } from "../../application/repositories/studentsDbRepository";
 import { StudentsRepositoryMongoDB } from "../../frameworks/database/mongoDb/repositories/studentsRepositoryMongoDB";
 import { joinNewCourse } from "../../application/useCases/courses/joinNewCourse";
-import { getStudentsAndTeachers } from "../../application/useCases/courses/peopleCrud";
+import { addNewStudent, addNewTeacher, getStudentsAndTeachers } from "../../application/useCases/courses/peopleCrud";
 import { TeachersDbInterface } from "../../application/repositories/teachersDbRepository";
 
 
@@ -92,12 +92,34 @@ cacheClient:RedisClient
       res.json(people)
     })
 
+    const addTeacher=asyncHandler(async(req:Request,res:Response)=>{
+      const {courseId} = req.params
+      const {userId} = req.body
+      await addNewTeacher(courseId,userId,dbRepositoryUser,dbRepositoryTeachers)
+      res.json({
+         status:"success",
+         message:"new teacher added"
+      })
+    })
+
+    const addStudent=asyncHandler(async(req:Request,res:Response)=>{
+      const {courseId} = req.params
+      const {userId} = req.body
+      await addNewStudent(courseId,userId,dbRepositoryUser,dbRepositoryStudents)
+      res.json({
+         status:"success",
+         message:"new student added"
+      })
+    })
+
     return {
         addNewCourse,
         getCourse,
         modifyCourse,
         joinCourse,
-        getPeople
+        getPeople,
+        addTeacher,
+        addStudent
     }
 }
 

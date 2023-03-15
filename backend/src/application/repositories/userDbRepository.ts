@@ -14,13 +14,16 @@ export const userDbRepository=(repository:ReturnType<UserRepositoryMongoDB>)=>{
 
   const isUserTeacher = async(id:string,courseId:string)=>await repository.isUserTeacher(id,courseId)
 
+  const isUserStudent = async(id:string,courseId:string)=>await repository.isUserStudent(id,courseId)
+
   return {
     getUserByEmail,
     addUser,
     getUserById,
     addCourseAsStudent,
     addCourseAsTeacher,
-    isUserTeacher
+    isUserTeacher,
+    isUserStudent
   }
 }
 

@@ -3,6 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { CourseInterface } from '../../../Types/CourseInterface';
 import { ICreateCoursePayload, IJoinCoursePayload, ILoginPayload, IRegisterPayload,} from '../../../Types/PayloadInterface';
 import { IBasicResponse, IGetPeople, IGetUserAndCoursesResponse, ILoginResponse } from '../../../Types/ResponseInterface';
+import { UserInterface } from '../../../Types/UserInterface';
 import { baseUrl } from '../../../urls';
 
 
@@ -84,6 +85,29 @@ export const apiSlice = createApi({
       query:({id})=>`/courses/${id}/people`,
       providesTags:['students','teachers']
     }),
+    findUserByEmail:builder.mutation<UserInterface,{email:string}>({
+      query:(data)=>({
+        url:'/user/get-by-email',
+        method:'POST',
+        body:data
+      }),
+    }),
+    addTeacher:builder.mutation<IBasicResponse,{courseId:string,userId:string}>({
+      query:({courseId,userId})=>({
+        url:`/courses/${courseId}/teachers`,
+        method:'POST',
+        body:{userId}
+      }),
+      invalidatesTags:['teachers']
+    }),
+    addStudent:builder.mutation<IBasicResponse,{courseId:string,userId:string}>({
+      query:({courseId,userId})=>({
+        url:`/courses/${courseId}/students`,
+        method:'POST',
+        body:{userId}
+      }),
+      invalidatesTags:['students']
+    }),
   })
 })
 
@@ -97,7 +121,10 @@ export const {
   useGetUserAndCoursesQuery,
   useGetCourseQuery,
   useSignInWithGoogleMutation,
-  useGetPeopleQuery
+  useGetPeopleQuery,
+  useFindUserByEmailMutation,
+  useAddStudentMutation,
+  useAddTeacherMutation
 } = apiSlice
 
 

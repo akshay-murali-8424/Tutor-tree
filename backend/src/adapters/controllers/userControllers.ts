@@ -6,6 +6,7 @@ import asyncHandler from "express-async-handler";
 import { CacheRepositoryInterface } from "../../application/repositories/cacheRepositoryInterface";
 import { RedisRepository } from "../../frameworks/database/redis/setCache";
 import { RedisClient } from "../../app";
+import { findByEmail } from "../../application/useCases/user/findUserByEmail";
 
 const userController = (
   userDbRepository: UserDbInterface,
@@ -31,8 +32,15 @@ const userController = (
     }
   });
 
+  const getUserByEmail=asyncHandler(async(req:Request,res:Response)=>{
+    const {email} =req.body
+      const user = await findByEmail(email,dbRepositoryUser)
+      res.json(user)
+  })
+
   return {
     getUser,
+    getUserByEmail
   };
 };
 

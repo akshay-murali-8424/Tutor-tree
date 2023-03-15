@@ -42,6 +42,12 @@ const coursesRouter=(redisClient:RedisClient)=>{
     router.post('/join/:refCode',controller.joinCourse)
 
     router.get('/:id/people',controller.getPeople)
+
+    router.route('/:courseId/teachers')
+    .post(controller.addTeacher)
+
+    router.route('/:courseId/students')
+    .post(controller.addStudent)
     
     return router
 }

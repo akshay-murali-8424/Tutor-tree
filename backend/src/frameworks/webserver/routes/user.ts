@@ -14,6 +14,8 @@ const userRouter=(redisClient:RedisClient)=>{
     
     router.get('/',redisCachingMiddleware(redisClient,'user'),controller.getUser)
 
+    router.post('/get-by-email',controller.getUserByEmail)
+
     return router
 }
 
