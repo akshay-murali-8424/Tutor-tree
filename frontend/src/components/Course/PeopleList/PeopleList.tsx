@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { UserInterface } from '../../../Types/UserInterface'
 import AddPeopleModal from './AddPeopleModal'
 
-function PeopleList({title,members}:{title:string,members:UserInterface[]}) {
+function PeopleList({title,members,user}:{title:string,members:UserInterface[],user:"teacher" | "student"}) {
   const [peopleVisible,setPeopleVisible] = useState<boolean>(false)
   let type:"Teacher" | "Student"="Teacher"
   if(title==="Teachers"){
@@ -16,7 +16,7 @@ function PeopleList({title,members}:{title:string,members:UserInterface[]}) {
     <div className='mt-6'>
       <div className='flex justify-content-between align-items-center'>
     <span className='text-3xl primary p-2'>{title}</span>
-    <div><Button icon="pi pi-user-plus" rounded text className='textButt' onClick={()=>setPeopleVisible(true)}/></div>  
+   {user==="teacher" &&<div><Button icon="pi pi-user-plus" rounded text className='textButt' onClick={()=>setPeopleVisible(true)}/></div>  }
       </div>
     <hr className='primaryHr'/>
     <div>

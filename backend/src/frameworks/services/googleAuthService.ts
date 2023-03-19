@@ -1,5 +1,6 @@
 import { OAuth2Client } from 'google-auth-library'
-const client = new OAuth2Client(process.env.GOOGLE_AUTH_CLIENT);
+import configKeys from '../../config';
+const client = new OAuth2Client(configKeys.googleAuthClient);
 
 export const googleAuthService = () => {
 
@@ -12,7 +13,7 @@ export const googleAuthService = () => {
         }
         const ticket = await client.verifyIdToken({
             idToken: token,
-            audience: process.env.GOOGLE_AUTH_CLIENT,
+            audience: configKeys.googleAuthClient,
         });
         const payload = ticket.getPayload();
         if(payload?.given_name&&payload.family_name&&payload.email){

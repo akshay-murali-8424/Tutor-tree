@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import UserRouter from './routes/user/UserRouter';
 import CourseRouter from './routes/courses/CourseRouter';
 import { Toaster } from 'react-hot-toast';
+import CreateWork from './pages/Course/CreateWork';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
       <Routes>
         <Route path='/*' element={<UserRouter/>}/>
         <Route path='/course/*' element={<CourseRouter/>}/>
+        <Route path='/course/create/:id' element={<CreateWork/>}/>
       </Routes>
     </Router>
     </>

@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
+import configKeys from '../../config';
 
 export const authService=()=>{
     const encryptPassword=async(password:string)=>{
@@ -13,14 +14,14 @@ export const authService=()=>{
     }
 
     const generateToken=(payload:string)=>{
-        const token = jwt.sign({payload}, process.env.JWT_SECRET as string, {
+        const token = jwt.sign({payload}, configKeys.jwtSecret, {
             expiresIn: "2d",
         });
         return token
     }
 
     const verifyToken=(token:string)=>{
-        return jwt.verify(token, process.env.JWT_SECRET as string)
+        return jwt.verify(token, configKeys.jwtSecret)
     }
 
     return {

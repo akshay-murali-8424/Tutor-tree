@@ -5,9 +5,8 @@
     --accent:#393E41;
     --error: #B00020;
     --gray: #e3e5e6;
+    --grayBackground: #f8f9fa;
 }
-
-
 
 .primaryButt{
     background-color: var(--complementary) !important;
@@ -149,4 +148,20 @@
 
 .primaryHr {
     border-top:2px solid var(--complementary)
+}
+
+.grayBackground{
+    background-color: var(--grayBackground);
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }

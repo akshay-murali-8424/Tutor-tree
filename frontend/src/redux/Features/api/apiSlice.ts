@@ -1,5 +1,6 @@
 
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { ClassWorkInterface } from '../../../Types/classWorkInterface';
 import { CourseInterface } from '../../../Types/CourseInterface';
 import { ICreateCoursePayload, IJoinCoursePayload, ILoginPayload, IRegisterPayload,} from '../../../Types/PayloadInterface';
 import { IBasicResponse, IGetPeople, IGetUserAndCoursesResponse, ILoginResponse } from '../../../Types/ResponseInterface';
@@ -108,6 +109,13 @@ export const apiSlice = createApi({
       }),
       invalidatesTags:['students']
     }),
+    createClassWork:builder.mutation<IBasicResponse,any>({
+      query:({courseId,classWork})=>({
+        url:`/courses/${courseId}/classWorks`,
+        method:'POST',
+        body:classWork
+      })
+    })
   })
 })
 
@@ -124,7 +132,8 @@ export const {
   useGetPeopleQuery,
   useFindUserByEmailMutation,
   useAddStudentMutation,
-  useAddTeacherMutation
+  useAddTeacherMutation,
+  useCreateClassWorkMutation
 } = apiSlice
 
 

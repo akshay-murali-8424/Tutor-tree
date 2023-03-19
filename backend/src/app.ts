@@ -1,5 +1,4 @@
 import express,{Application, NextFunction} from 'express';
-import dotenv from 'dotenv'
 import connectDB from './frameworks/database/mongoDb/connection';
 import serverConfig from './frameworks/webserver/server';
 import expressConfig from './frameworks/webserver/express';
@@ -9,8 +8,6 @@ import Colors = require('colors.ts');
 import errorHandlingMidlleware from './frameworks/webserver/middlewares/errorHandlingMiddleware';
 import AppError from './utils/appError';
 Colors.enable
-
-dotenv.config({ path: "config.env" });
 
 const app:Application = express();
 

@@ -5,6 +5,7 @@ import { selectuserAuth } from '../../redux/Features/reducers/userAuthSlice'
 import { ProgressSpinner } from 'primereact/progressspinner';
 import ClassCard from '../../components/User/ClassCard/ClassCard'
 import EmptyHome from '../../components/User/EmptyHome.tsx/EmptyHome';
+import NavBar from '../../components/User/UserNavBar/NavBar';
 
 function Home() {
   const {token}=useSelector(selectuserAuth)
@@ -22,7 +23,10 @@ function Home() {
       )
     }else{
       return (
+        <>
+        <NavBar course={false}/>
         <ClassCard data={data}/>
+        </>
       )
     }
   }else{

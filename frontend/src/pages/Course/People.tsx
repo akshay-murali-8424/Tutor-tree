@@ -1,12 +1,28 @@
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { useParams } from 'react-router-dom'
 import PeopleList from '../../components/Course/PeopleList/PeopleList';
-import { useGetPeopleQuery } from '../../redux/Features/api/apiSlice';
+import { useGetPeopleQuery, useGetUserAndCoursesQuery } from '../../redux/Features/api/apiSlice';
 
 
 function People() {
   let {id}=useParams<string>()
   const { data, isLoading, isFetching, isSuccess, isError, error, refetch } = useGetPeopleQuery({id})
+  const { data:userData, isLoading:userIsLoading, isFetching:userIsFetching, isSuccess:userIsSuccess, isError:userIsError, error:userError, refetch:userRefetch } = useGetUserAndCoursesQuery()
+
+  let user:"teacher" | "student" | undefined
+  
+  if(id){
+     userData?.coursesAsTeacher.forEach((course)=>{
+      if(course._id===id){
+        user="teacher"
+      }
+     })
+     userData?.coursesAsStudent.forEach((course)=>{
+      if(course._id===id){
+        user="student"
+      }
+     })
+  }
 
   if(isError){
     console.log(error)
@@ -17,11 +33,12 @@ function People() {
       <ProgressSpinner />
        </div>
     )
-  }else if(isSuccess){
+  }else if(isSuccess && userIsSuccess){
     return (
        <div className='lg:w-5 mx-auto'>
-         {data.teachers?.teachers && <PeopleList title='Teachers' members={data.teachers.teachers}/>}
-         {data.students?.students && <PeopleList title='Students' members={data.students.students}/>}
+         {user &&data.teachers?.teachers && <PeopleList title='Teachers' members={data.teachers.teachers} user={user}/>}
+         {user==="teacher"&&data.students?.students && <PeopleList title='Students' members={data.students.students} user={user}/>}
+         {user==="student"&&data.students?.students && <PeopleList title='Classmates' members={data.students.students} user={user}/>}
        </div>
     )
   }else{

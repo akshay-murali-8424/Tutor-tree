@@ -2,11 +2,12 @@ import express, { Application,NextFunction } from "express"
 import morgan from 'morgan'
 import cors from 'cors'
 import cookieParser from 'cookie-parser';
+import configKeys from "../../config";
 
 const expressConfig = (app: Application) => {
 
     // Development logging
-    if (process.env.NODE_ENV == 'development') {
+    if (configKeys.nodeEnv == 'development') {
         app.use(morgan('dev'));
     }
 

@@ -68,7 +68,7 @@ function NavBar({course}:{course:boolean}) {
   }else{
   return (
     <div
-      className="flex flex-row flex-wrap card-container blue-container"
+      className="flex flex-row flex-wrap card-container "
       style={{ borderBottom: "0.0625rem solid #e0e0e0"}}
     >
       <div className="card flex justify-content-start align-items-center lg:w-2">
