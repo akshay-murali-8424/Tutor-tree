@@ -24,3 +24,17 @@ export interface IGetPeople{
     students:StudentsInterface
 }
 
+export interface IGetClassWorkResponse{
+    title:string,
+    course:string,
+    description?:string,
+    dueDate?:string | Date,
+    postedOn:string,
+    attachments:string[] | [],
+    totalMark?: number,
+    _id:string,
+    assignedBy:UserInterface
+}
+
+
+

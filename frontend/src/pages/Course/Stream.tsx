@@ -1,12 +1,15 @@
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { useParams } from 'react-router-dom'
+import AnnouncementTab from '../../components/Course/announcementTab/AnnouncementTab';
+import ClassWorkList from '../../components/Course/classWorkList/ClassWorkList';
 import CourseTitleCard from '../../components/Course/CourseTitleCard/CourseTitleCard';
 import ReferralCode from '../../components/Course/referalCode/ReferralCode';
-import { useGetCourseQuery } from '../../redux/Features/api/apiSlice';
+import { useGetClassWorksQuery, useGetCourseQuery } from '../../redux/Features/api/apiSlice';
 
 function Stream() {
   let {id}=useParams<string>()
   const { data, isLoading, isFetching, isSuccess, isError, error, refetch } = useGetCourseQuery({id})
+  const { data:classWorksData,isLoading:isClassWorkLoading,isFetching:isClassWorkFetching } = useGetClassWorksQuery({id})
   if(isError){
     console.log(error)
   }
@@ -20,11 +23,15 @@ function Stream() {
     return (
       <>
       <CourseTitleCard className={data.name} section={data.section}/>
-      <div className='flex lg:w-7 mx-auto justify-content-between'>
+
+      <div className='grid mx-auto' style={{justifyContent:"space-between", width: "59.49%"}}>
+        <div className='col-3 '>
         <ReferralCode refCode={data.referralCode}/>
-        {/* <div className='lg:w-10 flex justify-content-centre border-round bg-indigo-500'>
-           Stream
-        </div> */}
+        </div>
+        <div className='col-9'>
+       <AnnouncementTab/>
+       {classWorksData&&!isClassWorkLoading &&<ClassWorkList data={classWorksData} user="teacher"/> }
+        </div>
       </div>
       </>
     )

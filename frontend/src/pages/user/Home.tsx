@@ -19,7 +19,10 @@ function Home() {
       )
     }else if(!data?.coursesAsStudent.length && !data?.coursesAsTeacher.length){
       return(
+        <>
+        <NavBar course={false}/>
         <EmptyHome/>
+        </>
       )
     }else{
       return (

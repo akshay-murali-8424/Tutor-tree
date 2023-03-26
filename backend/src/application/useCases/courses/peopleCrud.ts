@@ -11,7 +11,6 @@ export const getStudentsAndTeachers = async (
 ) => {
   const teachers = await dbRepositoryTeachers.getTeachers(courseId);
   const students = await dbRepositoryStudents.getStudents(courseId);
-
   return {
     teachers,
     students,

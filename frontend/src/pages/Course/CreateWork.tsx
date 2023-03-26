@@ -33,14 +33,15 @@ const navigate = useNavigate()
 const [createClassWork,{isLoading}] = useCreateClassWorkMutation()
 
 const submitHandler = async(data:{title:string,totalMark:number | string})=>{
-  data.totalMark = data.totalMark + " "
-  dueDate = dueDate + ""
   if(!isLoading){
     try {
       if(courseId){
         const classWork = new FormData();
           classWork.append("title",data.title)
-          classWork.append("totalMark",data.totalMark)
+          if(data.totalMark){
+            data.totalMark = data.totalMark+""
+            classWork.append("totalMark",data.totalMark)
+          }
           if(description){
             classWork.append("description",description)
           }
@@ -48,6 +49,7 @@ const submitHandler = async(data:{title:string,totalMark:number | string})=>{
             Object.values(attachments).forEach((attachments:any)=>classWork.append("attachments",attachments))
           }
           if(dueDate){
+            dueDate = dueDate + ""
             classWork.append("dueDate",dueDate)
           }
         const res = await createClassWork({courseId,classWork}).unwrap()
@@ -65,7 +67,7 @@ const submitHandler = async(data:{title:string,totalMark:number | string})=>{
   return (  
     <>
       <form onSubmit={handleSubmit(submitHandler)}>
-    <CreateWorkNavBar/>
+    <CreateWorkNavBar />
     <div className="flex">
       <div className="lg:w-10 grayBackground p-5" style={{ 
       borderRight: "0.0625rem solid #e0e0e0", minHeight:"92vh"}}>

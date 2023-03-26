@@ -17,7 +17,11 @@ const classWorkSchema = new Schema(
             default:Date.now
         },
         dueDate:Date,
-        attachments:[String]
+        attachments:[String],
+        assignedBy:{
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'User'
+        }
     },
 )
 const ClassWork = model("ClassWork",classWorkSchema,"classWorks")

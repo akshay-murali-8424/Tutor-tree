@@ -4,6 +4,8 @@ import UserRouter from './routes/user/UserRouter';
 import CourseRouter from './routes/courses/CourseRouter';
 import { Toaster } from 'react-hot-toast';
 import CreateWork from './pages/Course/CreateWork';
+import Assignment from './pages/Course/Assignment';
+import TeacherAssignment from './pages/Course/TeacherAssignment';
 
 function App() {
   return (
@@ -30,6 +32,8 @@ function App() {
         <Route path='/*' element={<UserRouter/>}/>
         <Route path='/course/*' element={<CourseRouter/>}/>
         <Route path='/course/create/:id' element={<CreateWork/>}/>
+        <Route path='/course/work/:courseId/a/:id' element={<Assignment/>}/>
+        <Route path='/course/work/:courseId/ta/:id' element={<TeacherAssignment/>}/>
       </Routes>
     </Router>
     </>

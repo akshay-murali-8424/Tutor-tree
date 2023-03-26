@@ -28,7 +28,7 @@ function SideBar({data}:{data:IGetUserAndCoursesResponse | undefined}) {
     {coursesAsStudent?.length>0&&<SideBarSection courses={coursesAsStudent} title="Enrolled"/>}
     {coursesAsTeacher?.length>0&&<SideBarSection courses={coursesAsTeacher} title="Teaching"/>}
   </Sidebar>
-  <Button icon={PrimeIcons.TH_LARGE} rounded text severity="secondary" className="ml-2" style={{ fontSize: '15px',margin:"5px "}} onClick={() => setSideVisible(true)}/>
+  <Button icon={PrimeIcons.BARS} rounded text severity="secondary" className="ml-2" style={{ fontSize: '15px',margin:"5px "}} onClick={() => setSideVisible(true)}/>
   </>
   )
 }

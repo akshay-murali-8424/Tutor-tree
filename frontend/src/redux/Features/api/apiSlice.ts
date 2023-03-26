@@ -1,9 +1,7 @@
-
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { ClassWorkInterface } from '../../../Types/classWorkInterface';
 import { CourseInterface } from '../../../Types/CourseInterface';
 import { ICreateCoursePayload, IJoinCoursePayload, ILoginPayload, IRegisterPayload,} from '../../../Types/PayloadInterface';
-import { IBasicResponse, IGetPeople, IGetUserAndCoursesResponse, ILoginResponse } from '../../../Types/ResponseInterface';
+import { IBasicResponse, IGetClassWorkResponse, IGetPeople, IGetUserAndCoursesResponse, ILoginResponse } from '../../../Types/ResponseInterface';
 import { UserInterface } from '../../../Types/UserInterface';
 import { baseUrl } from '../../../urls';
 
@@ -25,7 +23,7 @@ const baseQuery = fetchBaseQuery({
 export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery,
-  tagTypes: ['user', 'admin', 'course','students','teachers'],
+  tagTypes: ['user', 'admin', 'course','students','teachers','classWorks','submissions'],
   endpoints: (builder) => ({
     userLogin: builder.mutation<ILoginResponse, ILoginPayload>({
       query: (data) => ({
@@ -114,8 +112,25 @@ export const apiSlice = createApi({
         url:`/courses/${courseId}/classWorks`,
         method:'POST',
         body:classWork
-      })
-    })
+      }),
+      invalidatesTags:['classWorks']
+    }),
+    getClassWorks:builder.query<IGetClassWorkResponse[],{id:string | undefined}>({
+      query:({id})=>`/courses/${id}/classWorks`,
+      providesTags:['classWorks']
+    }),
+    getClassWork:builder.query<IGetClassWorkResponse,{id:string,courseId:string}>({
+      query:({courseId,id})=>`/courses/${courseId}/classWorks/${id}`,
+      providesTags:['classWorks']
+    }),
+    submitAssignment:builder.mutation<IBasicResponse,{courseId:string,classWorkId:string,submission:FormData}>({
+      query:({courseId,classWorkId,submission})=>({
+        url:`courses/${courseId}/classWorks/${classWorkId}/submissions`,
+        method:'POST',
+        body:submission
+      }),
+      invalidatesTags:['submissions']
+    }),
   })
 })
 
@@ -133,7 +148,10 @@ export const {
   useFindUserByEmailMutation,
   useAddStudentMutation,
   useAddTeacherMutation,
-  useCreateClassWorkMutation
+  useCreateClassWorkMutation,
+  useGetClassWorksQuery,
+  useGetClassWorkQuery,
+  useSubmitAssignmentMutation
 } = apiSlice
 
 

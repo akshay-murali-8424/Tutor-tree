@@ -1,7 +1,7 @@
 import { createClient } from 'redis'
 
 const connection = () => {
-  const createRedisClient = function createRedisClient() {
+  const createRedisClient = () => {
     const client = createClient();
     client.on('error', err => console.log('Redis Client Error', err));
     client.connect().then(()=>{

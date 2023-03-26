@@ -8,7 +8,8 @@ const studentsSchema = new Schema(
         },
         students:{
           type:[mongoose.Types.ObjectId],
-          ref:'User'
+          ref:'User',
+          required:true
         }
     },
 )

@@ -8,12 +8,18 @@ export const studentsRepositoryMongoDB=()=>{
     }
 
     const getStudents=async(courseId:string)=>
-      await Students.findOne({course:courseId}).populate('students')
+    await Students.findOne({course:courseId}).populate('students')
+
+    const getStudentIds = async(courseId:string)=>{
+      const res = await Students.findOne({course:courseId})
+      return res?.students
+    }
     
 
     return {
         addStudent,
-        getStudents
+        getStudents,
+        getStudentIds
     }
 }
 

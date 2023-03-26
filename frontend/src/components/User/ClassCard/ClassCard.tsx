@@ -16,7 +16,7 @@ export default function ClassCard({data}:{data:IGetUserAndCoursesResponse | unde
     );
     let courses:CourseInterface[] | [] = [] 
     if(data){
-      courses=[...data.coursesAsStudent,...data.coursesAsTeacher]
+      courses=[...data.coursesAsStudent,...data.coursesAsTeacher].reverse()
     }
     return (
         <div className="card flex flex-wrap justify-content-start">

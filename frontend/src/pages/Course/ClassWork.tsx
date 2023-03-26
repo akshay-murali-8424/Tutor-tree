@@ -1,11 +1,12 @@
 import { Button } from 'primereact/button'
 import { Link, useParams } from 'react-router-dom'
 import ClassWorkList from '../../components/Course/classWorkList/ClassWorkList'
-import { useGetUserAndCoursesQuery } from '../../redux/Features/api/apiSlice'
+import { useGetClassWorksQuery, useGetUserAndCoursesQuery } from '../../redux/Features/api/apiSlice'
 
 function ClassWork() {
   const {id}=useParams<string>()
   const { data:userData, isLoading:userIsLoading, isFetching:userIsFetching, isSuccess:userIsSuccess, isError:userIsError, error:userError, refetch:userRefetch } = useGetUserAndCoursesQuery()
+  const { data, isLoading, isFetching, isSuccess, isError, error, refetch } = useGetClassWorksQuery({id})
 
   let user= "student"
 
@@ -28,8 +29,8 @@ function ClassWork() {
         </div>
       } 
        <div className='mt-4'>
-       <ClassWorkList/>
-       </div> 
+       {data && <ClassWorkList data={data} user={user}/> }
+        </div> 
     </div>
   )
 }

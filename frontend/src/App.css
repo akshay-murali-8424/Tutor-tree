@@ -4,8 +4,10 @@
     --complementaryDim:#cbe7ea;
     --accent:#393E41;
     --error: #B00020;
-    --gray: #e3e5e6;
+    --gray: #f1f4f6;
+    --grayFont: #787575;
     --grayBackground: #f8f9fa;
+    --box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 
 .primaryButt{
@@ -34,6 +36,10 @@
     color: var(--accent) !important;
 }
 
+.textGray{
+    color: var(--grayFont);
+}
+
 .my-input:enabled:focus {
     box-shadow: 0 0 0 0.2rem var(--complementaryDim) !important;
     border-color: var(--complementary) !important;
@@ -58,6 +64,10 @@
 .raisedButt{
     color: var(--complementary) !important;
     background-color: #ffffff !important; 
+}
+
+.raisedButt:focus{
+    box-shadow:  0 0 0 0.15rem var(--complementaryDim) !important;
 }
 
 .textButt:focus {
@@ -164,4 +174,25 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
+}
+
+.announceTab{
+    box-shadow: var(--box-shadow);
+}
+
+.hoverPrimary:hover{
+  color: var(--complementaryDim);
+}
+
+.assignmentCard:hover{
+    background-color: var(--complementaryDim);
+}
+
+.p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box:hover {
+    border-color: var(--complementary) !important;
+}
+
+.p-checkbox .p-checkbox-box.p-highlight {
+    border-color: var(--complementary) !important;
+    background: var(--complementary) !important;
 }
