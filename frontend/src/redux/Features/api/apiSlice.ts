@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { CourseInterface } from '../../../Types/CourseInterface';
 import { ICreateCoursePayload, IJoinCoursePayload, ILoginPayload, IRegisterPayload,} from '../../../Types/PayloadInterface';
-import { IBasicResponse, IGetClassWorkResponse, IGetPeople, IGetUserAndCoursesResponse, ILoginResponse } from '../../../Types/ResponseInterface';
+import { IBasicResponse, IGetClassWorkResponse, IGetPeople, IGetSubmissionsResponse, IGetUserAndCoursesResponse, ILoginResponse } from '../../../Types/ResponseInterface';
 import { UserInterface } from '../../../Types/UserInterface';
 import { baseUrl } from '../../../urls';
 
@@ -131,6 +131,9 @@ export const apiSlice = createApi({
       }),
       invalidatesTags:['submissions']
     }),
+    getSubmissions:builder.query<IGetSubmissionsResponse[],{classWorkId:string | undefined,courseId:string | undefined}>({
+      query:({courseId,classWorkId})=>`/courses/${courseId}/classWorks/${classWorkId}/submissions`
+    })
   })
 })
 
@@ -151,7 +154,9 @@ export const {
   useCreateClassWorkMutation,
   useGetClassWorksQuery,
   useGetClassWorkQuery,
-  useSubmitAssignmentMutation
+  useSubmitAssignmentMutation,
+  useGetSubmissionsQuery,
+  useLazyGetSubmissionsQuery
 } = apiSlice
 
 

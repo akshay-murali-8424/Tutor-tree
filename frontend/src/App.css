@@ -196,3 +196,9 @@ input[type=number] {
     border-color: var(--complementary) !important;
     background: var(--complementary) !important;
 }
+
+.hoverText:hover{
+    color: var(--complementary);
+    cursor: pointer;
+}
+

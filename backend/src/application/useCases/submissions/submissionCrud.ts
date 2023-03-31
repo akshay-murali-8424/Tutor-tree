@@ -16,5 +16,13 @@ export const createNewSubmission = async (
     })
   );
   
-   await dbRepositorySubmission.createSubmission({student,classWork,attachments})
+  await dbRepositorySubmission.postSubmission(student,attachments)
 };
+
+
+export const getSubmissionsByWork = async (dbRepositorySubmission:ReturnType<SubmissionDbInterface>,classWorkId:string)=> 
+await dbRepositorySubmission.getSubmissions(classWorkId)
+
+
+export const getSubmissionById = async(dbRepositorySubmission:ReturnType<SubmissionDbInterface>,submissionId:string)=>
+await dbRepositorySubmission.getSubmission(submissionId)

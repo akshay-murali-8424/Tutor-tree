@@ -1,3 +1,4 @@
+import { ClassWorkInterface } from "./classWorkInterface";
 import { CourseInterface } from "./CourseInterface";
 import { StudentsInterface } from "./StudentsInterface";
 import { TeachersInterface } from "./TeachersInterface";
@@ -34,6 +35,14 @@ export interface IGetClassWorkResponse{
     totalMark?: number,
     _id:string,
     assignedBy:UserInterface
+}
+
+export interface IGetSubmissionsResponse{
+    _id:string,
+    userId:UserInterface,
+    classWork:ClassWorkInterface,
+    attachments:string[],
+    status: "assigned" | "submitted" | "returned"
 }
 
 

@@ -45,7 +45,7 @@ export const userLogin = async (
 export const signInWithGoogle=async(
   credential:string,
   googleAuthService:ReturnType<GoogleAuthServiceInterface>,
-  userRepository: ReturnType<UserDbInterface>,
+  userRepository: ReturnType<UserDbInterface>, 
   authService: ReturnType<AuthServiceInterface>)=>{
 
   const user = await googleAuthService.verify(credential)

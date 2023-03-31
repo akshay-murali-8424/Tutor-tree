@@ -1,16 +1,22 @@
 import mongoose, {Schema,model} from "mongoose"
 
+const studentSchema = new Schema(
+    {
+        userId:{
+         type:mongoose.Schema.Types.ObjectId,
+         ref:'User'
+        }
+    },
+    { _id : false }
+)
+
 const studentsSchema = new Schema(
     {
         course:{
             type:mongoose.Schema.Types.ObjectId,
             ref:'Course'
         },
-        students:{
-          type:[mongoose.Types.ObjectId],
-          ref:'User',
-          required:true
-        }
+        students:[studentSchema]
     },
 )
 

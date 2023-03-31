@@ -1,9 +1,9 @@
-import { Application } from "express";
+import { Server } from "http";
 import configKeys from "../../config";
 
-const serverConfig = (app:Application) => {
+const serverConfig = (server:Server) => {
     const startServer = () => {
-        app.listen(configKeys.port, () => {
+        server.listen(configKeys.port, () => {
             console.log(`Server listening on Port ${configKeys.port}`.bg_yellow.bold);
         })
     }

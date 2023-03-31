@@ -32,7 +32,8 @@ function CreateClass({createVisible, setCreateVisible}:{createVisible:boolean,se
   const [reqError,setReqError]=useState('')
 
   const submitHandler =async (data:ICreateCoursePayload) => {
-    if(!isLoading){
+    console.log("cdacajj")
+    
       try{
         const res:IBasicResponse = await createClass(data).unwrap()
         if(res.status ==='success'){
@@ -41,7 +42,7 @@ function CreateClass({createVisible, setCreateVisible}:{createVisible:boolean,se
       }catch(err:any){
         setReqError(err.data.message)
       }
-    }
+    
   };
 
   return (

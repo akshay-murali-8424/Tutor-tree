@@ -1,9 +1,11 @@
 import { Checkbox, CheckboxChangeEvent } from "primereact/checkbox";
-import { useState } from "react";
+import { SplitterPanel } from "primereact/splitter";
+import { Dispatch, useState } from "react";
+import { IGetSubmissionsResponse } from "../../../Types/ResponseInterface";
 
-function TeacherAssignmentSideBar() {
+function TeacherAssignmentSideBar({data,setSubmission}:{data:IGetSubmissionsResponse[],setSubmission:Dispatch<IGetSubmissionsResponse>}) {
   const [ingredients, setIngredients] = useState<string[]>([]);
-  console.log(ingredients);
+
 
   const onIngredientsChange = (e: CheckboxChangeEvent) => {
     let _ingredients = [...ingredients];
@@ -15,59 +17,25 @@ function TeacherAssignmentSideBar() {
   };
 
   return (
-    <div
-      className="lg:w-3"
-      style={{ borderRight: "0.0625rem solid #dadce0" }}
-    >
-      <div className="flex p-3 align-items-center">
-        <Checkbox
+   <>
+    {data.map((submission)=>{
+      return (
+         <div className="flex p-3 align-items-center">
+          <Checkbox
           inputId="ingredient1"
           name="pizza"
-          value="Cheese"
+          value={submission._id}
           onChange={onIngredientsChange}
-          checked={ingredients.includes("Cheese")}
-        />
-        <label htmlFor="ingredient1" className="ml-2">
-          Cheese
-        </label>
-      </div>
-      <div className="flex p-3 align-items-center">
-        <Checkbox
-          inputId="ingredient2"
-          name="pizza"
-          value="Mushroom"
-          onChange={onIngredientsChange}
-          checked={ingredients.includes("Mushroom")}
-        />
-        <label htmlFor="ingredient2" className="ml-2">
-          Mushroom
-        </label>
-      </div>
-      <div className="flex p-3 align-items-center">
-        <Checkbox
-          inputId="ingredient3"
-          name="pizza"
-          value="Pepper"
-          onChange={onIngredientsChange}
-          checked={ingredients.includes("Pepper")}
-        />
-        <label htmlFor="ingredient3" className="ml-2">
-          Pepper
-        </label>
-      </div>
-      <div className="flex p-3 align-items-center">
-        <Checkbox
-          inputId="ingredient4"
-          name="pizza"
-          value="Onion"
-          onChange={onIngredientsChange}
-          checked={ingredients.includes("Onion")}
-        />
-        <label htmlFor="ingredient4" className="ml-2">
-          Onion
-        </label>
-      </div>
-    </div>
+          checked={ingredients.includes(submission._id)}
+          />
+          <label htmlFor="ingredient1" className="ml-2">
+           </label>
+           <span className="text-sm hoverText" onClick={()=>setSubmission(submission)}>{submission.userId.firstName +" "+ submission.userId.lastName}</span>
+          </div>
+      )
+    })
+    }
+    </>
   );
 }
 

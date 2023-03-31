@@ -1,12 +1,14 @@
 import { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 import { ClassWorkDbRepository } from "../../application/repositories/classWorkDbRepository";
+import { StudentsDbInterface } from "../../application/repositories/studentsDbRepository";
 import { SubmissionDbInterface } from "../../application/repositories/submissionDbRepository";
 import { CloudServiceInterface } from "../../application/services/cloudServiceInterface";
 import { createWork, getAllClassWorks, getClassWork } from "../../application/useCases/classWork/classWorkCrud";
 import { streamFiles } from "../../application/useCases/classWork/streamFiles";
-import { createNewSubmission } from "../../application/useCases/submissions/submissionCrud";
+import { createNewSubmission, getSubmissionById, getSubmissionsByWork } from "../../application/useCases/submissions/submissionCrud";
 import { ClassWorkRepositoryMongoDb } from "../../frameworks/database/mongoDb/repositories/classWorkRepositoryMongoDb";
+import { StudentsRepositoryMongoDB } from "../../frameworks/database/mongoDb/repositories/studentsRepositoryMongoDB";
 import { SubmissionsRepositoryMongoDb } from "../../frameworks/database/mongoDb/repositories/submissionsRepositoryMongoDb";
 import { CloudServiceImpl } from "../../frameworks/services/s3Service";
 import { ClassWorkInterface } from "../../types/classWorkInterface";
@@ -17,13 +19,16 @@ export const classWorkController = (
   classWorkDbRepository: ClassWorkDbRepository,
   classWorkDbRepositoryImpl: ClassWorkRepositoryMongoDb,
   submissionsDbRepository:SubmissionDbInterface,
-  submissionsDbRepositoryImpl:SubmissionsRepositoryMongoDb
+  submissionsDbRepositoryImpl:SubmissionsRepositoryMongoDb,
+  studentsDbRepository:StudentsDbInterface,
+  studentsRepositoryImpl:StudentsRepositoryMongoDB
 ) => {
   const cloudService = cloudServiceInterface(cloudServiceImpl());
   const dbRepositoryClassWork = classWorkDbRepository(
     classWorkDbRepositoryImpl()
   );
   const dbRepositorySubmission = submissionsDbRepository(submissionsDbRepositoryImpl())
+  const dbRepositoryStudents = studentsDbRepository(studentsRepositoryImpl())
 
   const createClassWork = asyncHandler(async (req: Request, res: Response) => {
     const {courseId} = req.params
@@ -31,7 +36,7 @@ export const classWorkController = (
     const attachments = req.files as Express.Multer.File[];
     const userId = req.userId
     if(userId){
-      await createWork(classWork, attachments, cloudService,dbRepositoryClassWork,userId,courseId);
+      await createWork(classWork, attachments, cloudService,dbRepositoryClassWork,userId,courseId,dbRepositoryStudents,dbRepositorySubmission);
       res.json({
         status: "success",
         message:"new classwork added"
@@ -57,7 +62,7 @@ export const classWorkController = (
     readStream.pipe(res)
   })
 
-  const newSubmission = asyncHandler(async(req:Request,res:Response)=>{
+  const postSubmission = asyncHandler(async(req:Request,res:Response)=>{
    const {classWorkId} = req.params
    const attachments = req.files as Express.Multer.File[];
    const userId = req.userId
@@ -70,11 +75,31 @@ export const classWorkController = (
    }
   })
 
+  const getSubmissions = asyncHandler(async(req:Request,res:Response)=>{
+    const {classWorkId} = req.params
+    const submissions = await getSubmissionsByWork(dbRepositorySubmission,classWorkId)
+    res.json(submissions)
+  })
+
+  const getSubmission = asyncHandler(async(req:Request,res:Response)=>{
+    const {id} = req.params
+    const submission = await getSubmissionById(dbRepositorySubmission,id)
+    res.json(submission)
+  })
+  
+  const returnSubmissions =asyncHandler(async(req:Request,res:Response)=>{
+
+  }) 
+
+
   return {
     createClassWork,
     getAll,
     getOne,
     streamAttachedFiles,
-    newSubmission
+    postSubmission,
+    getSubmissions,
+    returnSubmissions,
+    getSubmission
   };
 };

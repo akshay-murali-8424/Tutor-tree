@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { UserInterface } from '../../../Types/UserInterface'
 import AddPeopleModal from './AddPeopleModal'
 
-function PeopleList({title,members,user}:{title:string,members:UserInterface[],user:"teacher" | "student"}) {
+function PeopleList({title,members,user}:{title:string,members:{userId:UserInterface | null}[] ,user:"teacher" | "student"}) {
   const [peopleVisible,setPeopleVisible] = useState<boolean>(false)
   let type:"Teacher" | "Student"="Teacher"
   if(title==="Teachers"){
@@ -20,18 +20,18 @@ function PeopleList({title,members,user}:{title:string,members:UserInterface[],u
       </div>
     <hr className='primaryHr'/>
     <div>
-     {
+     { members &&
       members.map((member,i)=>{
         return(
           <>
-          <div className='m-2 flex align-items-center'>
+          <div  className='m-2 flex align-items-center'>
           <Avatar
-          label={member.firstName[0]}
+          label={member?.userId?.firstName[0]}
           className="primaryButt mr-2"
           shape="circle"
           style={{ color: "white" }}
           />
-          <span className='accent text-sm pl-2'>{member.firstName+" "+member.lastName}</span>
+          <span className='accent text-sm pl-2'>{member?.userId?.firstName+" "+member?.userId?.lastName}</span>
           </div>
           {members.length-1 !== i&&<hr />}
           </>

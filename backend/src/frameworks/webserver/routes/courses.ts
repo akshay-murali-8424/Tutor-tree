@@ -33,7 +33,7 @@ const coursesRouter=(redisClient:RedisClient)=>{
         redisClient)
 
     router.route('/')
-    .post(controller.addNewCourse)
+    .post(userAuthMiddleware,controller.addNewCourse)
     .get()
 
     router.route('/:id')

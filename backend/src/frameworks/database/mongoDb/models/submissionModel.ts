@@ -2,20 +2,21 @@ import mongoose, { model, Schema } from "mongoose";
 
 const submissionSchema = new Schema(
     {
-        student:{
+        userId:{
             type:mongoose.Schema.Types.ObjectId,
             ref:'User',
-            unique:true
         },
         classWork:{
             type:mongoose.Schema.Types.ObjectId,
             ref:'ClassWork'
         },
         attachments:[String],
-        submittedDate:{
-            type:Date,
-            default:Date.now
-        }
+        status:{
+            type:String,
+            enum:["assigned","submitted","returned"],
+            default:"assigned"
+        },
+        mark:Number
     }
 )
 

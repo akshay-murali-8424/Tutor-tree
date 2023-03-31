@@ -8,6 +8,8 @@ export const createWork = async(classWorks:ClassWorkInterface,
     attachments:Express.Multer.File[] | undefined, cloudService:ReturnType<CloudServiceInterface>,
     dbRepositoryClassWork:ReturnType<ClassWorkDbRepository>,assignedBy:string,courseId:string,
     dbRepositoryStudents:ReturnType<StudentsDbInterface>,dbRepositorySubmissions:ReturnType<SubmissionDbInterface>) =>{
+
+
     classWorks.course = courseId
     classWorks.assignedBy = assignedBy
     if(attachments){
@@ -18,7 +20,12 @@ export const createWork = async(classWorks:ClassWorkInterface,
         })
       )
     }
-    dbRepositoryClassWork.createWork(classWorks)
+    const students:any = await dbRepositoryStudents.getStudentIds(courseId)
+    const {_id} =await dbRepositoryClassWork.createWork(classWorks)
+    students?.forEach((student:any)=>{
+         student.classWork = _id
+    })
+    await dbRepositorySubmissions.createSubmissions(students)
 }
 
 export const getAllClassWorks = async(courseId:string,dbRepositoryClassWork:ReturnType<ClassWorkDbRepository>)=>
