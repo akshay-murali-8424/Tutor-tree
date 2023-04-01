@@ -14,25 +14,7 @@ Colors.enable
 const app:Application = express();
 const server = http.createServer(app)
 
-const io = new Server(server,{
-    cors:{
-        origin:"http://localhost:3000",
-        methods:["GET","POST"]
-    }
-});
 
-io.on("connection",(socket)=>{
-    console.log(`user connected ${socket.id}`.bg_magenta);
-   socket.join('myr')
-    socket.on("disconnect",()=>{
-        console.log("disconnected",socket.id)
-    })
-
-    socket.on("send_message",(data)=>{
-        console.log(data)
-        io.to('myr').emit("receive_message",data)
-    })
-})
 
 //connecting mongoDb
 connectDB();
