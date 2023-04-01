@@ -1,5 +1,5 @@
 import dotenv from 'dotenv'
-dotenv.config({ path: "config.env" });
+dotenv.config();
 
 const configKeys= {
     awsBucketName:process.env.AWS_BUCKET_NAME as string,
