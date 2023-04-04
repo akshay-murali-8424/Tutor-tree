@@ -1,7 +1,7 @@
 :root{
     --dominant:#ffffff;
     --complementary:#258994;
-    --complementaryDim:#cbe7ea;
+    --complementaryDim:#c7e6e9;
     --accent:#393E41;
     --error: #B00020;
     --gray: #f1f4f6;
@@ -202,3 +202,63 @@ input[type=number] {
     cursor: pointer;
 }
 
+.box{
+    min-width: 150px;
+    max-width: 300px;
+    border-radius: 15px;
+    background: var(--complementaryDim);
+    position: relative;
+  }
+  
+  
+  /* speech bubble 13 */
+  
+  .sb1:before {
+    content: "";
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    border-left: 15px solid var(--complementaryDim);
+    border-right: 15px solid transparent;
+    border-top: 15px solid var(--complementaryDim);
+    border-bottom: 15px solid transparent;
+    right: -16px;
+    top: 0px;
+  }
+  
+  
+  /* speech bubble 14 */
+  
+  .sb2:before {
+    content: "";
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    border-left: 15px solid transparent;
+    border-right: 15px solid var(--complementaryDim);
+    border-top: 15px solid var(--complementaryDim);
+    border-bottom: 15px solid transparent;
+    left: -16px;
+    top: 0px;
+}
+  
+
+::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar
+{
+	width: 12px;
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #555;
+}

@@ -1,6 +1,4 @@
-import { HttpStatus } from "../../../../types/httpStatus";
 import { UserInterface } from "../../../../types/userInterface";
-import AppError from "../../../../utils/appError";
 import User from "../models/userModel";
 
 export const userRepositoryMongoDB = () => {

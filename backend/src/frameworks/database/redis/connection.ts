@@ -10,6 +10,7 @@ const connection = () => {
       console.log(err)
     })
     return client
+    
   };
 
   return {
