@@ -1,8 +1,11 @@
 import { Avatar } from 'primereact/avatar'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { IGetClassWorkResponse } from '../../../Types/ResponseInterface'
+import NoClassWorkSvg from './NoClassWorkSvg'
 
 function ClassWorkList({data,user}:{data:IGetClassWorkResponse[],user:string}) {
+  const {pathname}= useLocation()
+  const page = pathname.split('/')[2]
   const getUrl = (courseId:string,workId:string) =>{
     if(user==="student"){
       return `/course/work/${courseId}/a/${workId}`
@@ -10,8 +13,10 @@ function ClassWorkList({data,user}:{data:IGetClassWorkResponse[],user:string}) {
       return `/course/work/${courseId}/ta/${workId}`
     }
   }
+
+   if(data.length){ 
     return (
-      <>
+      <div className="mt-4">
      { data.map((classWork)=>{
       return(
       <Link to={getUrl(classWork.course,classWork._id)} style={{textDecoration:"none"}}>
@@ -33,8 +38,20 @@ function ClassWorkList({data,user}:{data:IGetClassWorkResponse[],user:string}) {
       )
      }) 
      }
-      </>
+     
+      </div>
     )
+    }else if(page==="work"){
+      return(
+        <div className='lg:w-5 mx-auto mt-1 p-2'>
+          <NoClassWorkSvg/>
+          {user==="student" ?<div className='textGray'>No assignments yet. Lucky you!</div>:
+           <div className='textGray'>This is where you’ll assign work</div>}
+        </div>
+      )
+    }else{
+      return null
+    }
 }
 
 export default ClassWorkList

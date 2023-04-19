@@ -1,4 +1,4 @@
-import mongoose, {Schema,model} from "mongoose"
+import {Schema,model} from "mongoose"
 
 const courseSchema = new Schema(
     {
@@ -15,7 +15,7 @@ const courseSchema = new Schema(
             required: [true,"please add a subject"],
         },
         createdBy:{
-            type:mongoose.Schema.Types.ObjectId,
+            type:Schema.Types.ObjectId,
             ref:'User'
         },
         referralCode:{

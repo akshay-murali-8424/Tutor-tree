@@ -12,7 +12,12 @@ export const userRepositoryMongoDB = () => {
     lastName: string;
     email: string;
     password?: string;
-  }) => await User.create(user);
+    color?:string
+  }) => {
+    user.color = Math.floor(Math.random()*16777215).toString(16)
+    return await User.create(user)
+  }
+
 
   const getUserById = async (id: string) =>
     await User.findById(id).populate(["coursesAsStudent", "coursesAsTeacher"]);

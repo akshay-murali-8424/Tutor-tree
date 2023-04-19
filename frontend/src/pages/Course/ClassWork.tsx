@@ -28,9 +28,9 @@ function ClassWork() {
          </Link>
         </div>
       } 
-       <div className='mt-4'>
-       {data && <ClassWorkList data={data} user={user}/> }
-        </div> 
+      
+       {data  && <ClassWorkList data={data} user={user}/> }
+       
     </div>
   )
 }

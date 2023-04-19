@@ -1,7 +1,7 @@
 :root{
     --dominant:#ffffff;
-    --complementary:#258994;
-    --complementaryDim:#c7e6e9;
+    --complementary:#497db9;
+    --complementaryDim:rgb(212, 237, 252);
     --accent:#393E41;
     --error: #B00020;
     --gray: #f1f4f6;
@@ -229,7 +229,7 @@ input[type=number] {
   
   /* speech bubble 14 */
   
-  .sb2:before {
+.sb2:before {
     content: "";
     width: 0px;
     height: 0px;
@@ -261,4 +261,21 @@ input[type=number] {
 	border-radius: 10px;
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
 	background-color: #555;
+}
+
+.p-accordion .p-accordion-header:not(.p-disabled) .p-accordion-header-link:focus {
+    outline: 0 none;
+    outline-offset: 0;
+    box-shadow: 0 0 0 0.2rem var(--complementaryDim) !important;
+}
+
+.p-datepicker table td > span.p-highlight {
+    color: var(--complementary) !important;
+    background: var(--complementaryDim) !important;
+}
+
+.p-datepicker table td > span:focus {
+    outline: 0 none;
+    outline-offset: 0;
+    box-shadow: 0 0 0 0.2rem var(--complementary) !important;
 }

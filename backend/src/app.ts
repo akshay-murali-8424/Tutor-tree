@@ -11,10 +11,11 @@ import AppError from './utils/appError';
 import { Server } from 'socket.io';
 import socketConfig from './frameworks/webSocket/socket';
 import { ClientToServerEvents, InterServerEvents, ServerToClientEvents, SocketData } from './types/socketInterfaces';
+import { authService } from './frameworks/services/authService';
 Colors.enable
 
 const app:Application = express();
-const server = http.createServer(app)
+const server = http.createServer(app);
 
 const io = new Server<ClientToServerEvents,ServerToClientEvents,InterServerEvents,SocketData>(server,{
     cors:{
@@ -23,7 +24,7 @@ const io = new Server<ClientToServerEvents,ServerToClientEvents,InterServerEvent
     }
 });
 
-socketConfig(io)
+socketConfig(io,authService())  
 
 //connecting mongoDb
 connectDB();
@@ -42,7 +43,6 @@ app.use(errorHandlingMidlleware)
  app.all('*', (req,res,next:NextFunction) => {
     next(new AppError('Not found', 404));
 });
-
 
 serverConfig(server).startServer()
 

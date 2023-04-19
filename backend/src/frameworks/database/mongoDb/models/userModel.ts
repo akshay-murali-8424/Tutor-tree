@@ -29,6 +29,9 @@ const userSchema = new Schema(
         isGoogleUser:{
             type:Boolean,
             default:false
+        },
+        color:{
+            type:String,
         }
     },
 )

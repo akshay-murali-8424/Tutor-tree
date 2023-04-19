@@ -15,8 +15,7 @@ export const createNewSubmission = async (
       return Key;
     })
   );
-  
-  await dbRepositorySubmission.postSubmission(student,attachments)
+  await dbRepositorySubmission.postSubmission(student,attachments,classWork)
 };
 
 
@@ -24,5 +23,12 @@ export const getSubmissionsByWork = async (dbRepositorySubmission:ReturnType<Sub
 await dbRepositorySubmission.getSubmissions(classWorkId)
 
 
-export const getSubmissionById = async(dbRepositorySubmission:ReturnType<SubmissionDbInterface>,submissionId:string)=>
-await dbRepositorySubmission.getSubmission(submissionId)
+export const getSubmissionById = async(dbRepositorySubmission:ReturnType<SubmissionDbInterface>,classWorkId:string,userId:string)=>
+await dbRepositorySubmission.getSubmission(userId,classWorkId)
+
+export const returnWorkSubmissions = async(submissions:string[],dbRepositorySubmissions:ReturnType<SubmissionDbInterface>)=>
+dbRepositorySubmissions.returnSubmissions(submissions)
+
+
+export const setMark = async(submissionId:string,mark:number,dbRepositorySubmissions:ReturnType<SubmissionDbInterface>)=>
+dbRepositorySubmissions.setMark(submissionId,mark)

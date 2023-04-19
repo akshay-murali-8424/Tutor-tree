@@ -1,11 +1,27 @@
-import { Checkbox, CheckboxChangeEvent } from "primereact/checkbox";
-import { SplitterPanel } from "primereact/splitter";
-import { Dispatch, useState } from "react";
+import { CheckboxChangeEvent } from "primereact/checkbox";
+import { Dispatch } from "react";
 import { IGetSubmissionsResponse } from "../../../Types/ResponseInterface";
+import { Accordion, AccordionTab } from 'primereact/accordion';
+import SideBarAccordian from "./SideBarAccordian";
+        
 
-function TeacherAssignmentSideBar({data,setSubmission}:{data:IGetSubmissionsResponse[],setSubmission:Dispatch<IGetSubmissionsResponse>}) {
-  const [ingredients, setIngredients] = useState<string[]>([]);
+function TeacherAssignmentSideBar({data,setSubmission,ingredients,setIngredients}:{data:IGetSubmissionsResponse[],setSubmission:Dispatch<IGetSubmissionsResponse>
+ ingredients:string[],setIngredients:Dispatch<string[]>}) {
 
+  const submitted:IGetSubmissionsResponse[]=[]
+  const assigned:IGetSubmissionsResponse[] = []
+  const returned:IGetSubmissionsResponse[] = []
+
+  data.forEach((submission)=>{
+     if(submission.status==="submitted")
+     submitted.push(submission)
+     else if(submission.status==="assigned")
+     assigned.push(submission)
+     else
+     returned.push(submission)
+  })
+
+  
 
   const onIngredientsChange = (e: CheckboxChangeEvent) => {
     let _ingredients = [...ingredients];
@@ -17,25 +33,22 @@ function TeacherAssignmentSideBar({data,setSubmission}:{data:IGetSubmissionsResp
   };
 
   return (
-   <>
-    {data.map((submission)=>{
-      return (
-         <div className="flex p-3 align-items-center">
-          <Checkbox
-          inputId="ingredient1"
-          name="pizza"
-          value={submission._id}
-          onChange={onIngredientsChange}
-          checked={ingredients.includes(submission._id)}
-          />
-          <label htmlFor="ingredient1" className="ml-2">
-           </label>
-           <span className="text-sm hoverText" onClick={()=>setSubmission(submission)}>{submission.userId.firstName +" "+ submission.userId.lastName}</span>
-          </div>
-      )
-    })
-    }
-    </>
+   <div> 
+    <Accordion>
+    <AccordionTab header="Handed in">
+    <SideBarAccordian onIngredientsChange={onIngredientsChange} data={submitted} setSubmission={setSubmission}
+    ingredients={ingredients} type="submitted"/> 
+    </AccordionTab>
+    <AccordionTab header="Assigned">
+    <SideBarAccordian onIngredientsChange={onIngredientsChange} data={assigned} setSubmission={setSubmission}
+    ingredients={ingredients} type="assigned"/> 
+    </AccordionTab>
+    <AccordionTab header="Returned">
+    <SideBarAccordian onIngredientsChange={onIngredientsChange} data={returned} setSubmission={setSubmission}
+    ingredients={ingredients} type="returned"/> 
+    </AccordionTab>
+    </Accordion>
+    </div>
   );
 }
 

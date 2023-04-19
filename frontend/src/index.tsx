@@ -17,14 +17,19 @@ import "primeicons/primeicons.css";
 import "primeflex/primeflex.css";
 
 
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+
+
 
 const gooleAuthClient= process.env.REACT_APP_GOOGLE_AUTH_CLIENT ?? ''
 
 root.render(
   <React.StrictMode>
+
  <GoogleOAuthProvider clientId={gooleAuthClient}>
     <Provider store={store}>
     <App />

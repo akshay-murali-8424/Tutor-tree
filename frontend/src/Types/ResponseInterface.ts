@@ -45,5 +45,18 @@ export interface IGetSubmissionsResponse{
     status: "assigned" | "submitted" | "returned"
 }
 
+export interface IGetMessagesResponse{
+    _id:string,
+    message:string,
+    user:{
+        _id:string,
+        firstName:string,
+        lastName:string,
+        color:string
+    }
+    course:string,
+    sentedTime:string
+}
+
 
 

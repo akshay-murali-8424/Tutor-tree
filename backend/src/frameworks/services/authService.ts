@@ -14,14 +14,14 @@ export const authService=()=>{
     }
 
     const generateToken=(payload:string)=>{
-        const token = jwt.sign({payload}, configKeys.jwtSecret, {
+        const token = jwt.sign({payload}, configKeys.JWT_SECRET, {
             expiresIn: "2d",
         });
         return token
     }
 
     const verifyToken=(token:string)=>{
-        return jwt.verify(token, configKeys.jwtSecret)
+        return jwt.verify(token, configKeys.JWT_SECRET)
     }
 
     return {

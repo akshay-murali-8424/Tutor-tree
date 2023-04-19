@@ -16,6 +16,9 @@ import { StudentsRepositoryMongoDB } from "../../frameworks/database/mongoDb/rep
 import { joinNewCourse } from "../../application/useCases/courses/joinNewCourse";
 import { addNewStudent, addNewTeacher, getStudentsAndTeachers } from "../../application/useCases/courses/peopleCrud";
 import { TeachersDbInterface } from "../../application/repositories/teachersDbRepository";
+import { GroupMessageDbInterface } from "../../application/repositories/groupMessageDbRepository";
+import { GroupMessageRepositoryMongoDb } from "../../frameworks/database/mongoDb/repositories/groupMessageRepositoryMongoDb";
+import { getMessages } from "../../application/useCases/groupMessages/getMessages";
 
 
 const courseController=(
@@ -31,6 +34,8 @@ userDbRepository: UserDbInterface,
 userDbRepositoryImpl: UserRepositoryMongoDB,
 studentsDbRepository:StudentsDbInterface,
 studentsRepositoryImpl:StudentsRepositoryMongoDB,
+groupMessageDbRepository:GroupMessageDbInterface,
+groupMessageDbRepositoryImpl:GroupMessageRepositoryMongoDb,
 cacheClient:RedisClient
 )=>{
     const dbRepositoryCourse=courseDbRepository(courseDbRepositoryImpl())
@@ -38,6 +43,7 @@ cacheClient:RedisClient
     const dbRepositoryUser=userDbRepository(userDbRepositoryImpl())
     const dbRepositoryStudents=studentsDbRepository(studentsRepositoryImpl())
     const referralService= referralCodeInterface(referralCodeService())
+    const dbRepositoryGroupMessages = groupMessageDbRepository(groupMessageDbRepositoryImpl())
     const cacheRepository = cacheRepositoryInterface(cacheRepositoryImpl(cacheClient))
    
     const addNewCourse=asyncHandler(async(req:Request,res:Response)=>{
@@ -113,6 +119,12 @@ cacheClient:RedisClient
       })
     })
 
+   const getGroupMessages = asyncHandler(async(req:Request,res:Response)=>{
+      const {courseId} = req.params
+      const groupMessages = await getMessages(courseId,dbRepositoryGroupMessages)
+      res.json(groupMessages)
+   })
+
     return {
         addNewCourse,
         getCourse,
@@ -120,7 +132,8 @@ cacheClient:RedisClient
         joinCourse,
         getPeople,
         addTeacher,
-        addStudent
+        addStudent,
+        getGroupMessages
     }
 }
 

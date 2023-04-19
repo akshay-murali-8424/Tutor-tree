@@ -14,7 +14,7 @@ function App() {
   toastOptions={{
     success: {
       style: {
-        background: '#cbe7ea',
+        background: '#E8E9EB',
         fontSize:"15px"
       },
       position:"top-right"

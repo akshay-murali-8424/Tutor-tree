@@ -3,9 +3,9 @@ import fs from 'fs'
 import configKeys from '../../config';
 
 const s3 = new S3({
-   region:configKeys.awsBucketRegion,
-   accessKeyId:configKeys.awsAccessKey,
-   secretAccessKey:configKeys.awsSecretAccessKey
+   region:configKeys.AWS_BUCKET_REGION,
+   accessKeyId:configKeys.AWS_ACCESS_KEY,
+   secretAccessKey:configKeys.AWS_SECRET_ACCESS_KEY
 })
 
 
@@ -13,7 +13,7 @@ export const s3Service= ()=>{
     const uploadFile = (file:any) => {
         const fileStream = fs.createReadStream(file.path);
         const uploadParams = {
-          Bucket: configKeys.awsBucketName,
+          Bucket: configKeys.AWS_BUCKET_NAME,
           Body: fileStream,
           Key: file.filename,
         };
@@ -23,7 +23,7 @@ export const s3Service= ()=>{
     const getFileStream = (fileKey:string) => {
         const downloadParams = {
           Key: fileKey,
-          Bucket: configKeys.awsBucketName,
+          Bucket: configKeys.AWS_BUCKET_NAME,
         };
         return s3.getObject(downloadParams).createReadStream();
     };

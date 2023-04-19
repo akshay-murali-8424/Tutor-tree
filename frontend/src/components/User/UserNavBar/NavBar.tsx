@@ -9,14 +9,16 @@ import SideBar from "../SideBar/SideBar";
 import { confirmDialog, ConfirmDialog } from 'primereact/confirmdialog'
 import { useDispatch } from "react-redux";
 import { deleteToken } from "../../../redux/Features/reducers/userAuthSlice";
-import { useNavigate } from "react-router-dom";
-import { useGetUserAndCoursesQuery } from "../../../redux/Features/api/apiSlice";  
+import { useLocation, useNavigate} from "react-router-dom";
+import { useGetCourseQuery, useGetUserAndCoursesQuery } from "../../../redux/Features/api/apiSlice";  
 import { ProgressSpinner } from "primereact/progressspinner";
 import CourseNavBarOptions from "./CourseNavBarOptions";
 
 function NavBar({course}:{course:boolean}) {
-  const { data, isLoading, isFetching, isSuccess, isError, error, refetch } = useGetUserAndCoursesQuery()
-
+  const {pathname}= useLocation()
+  const courseId = pathname.split('/')[3]
+  const { data, isLoading, isFetching } = useGetUserAndCoursesQuery()
+  const { data:courseData } = useGetCourseQuery({id:courseId},{skip:!course})
   const menu = useRef<Menu>(null);
   const userAvatarMenu=useRef<Menu>(null);
   const dispatch = useDispatch()
@@ -73,7 +75,7 @@ function NavBar({course}:{course:boolean}) {
     >
       <div className="card flex justify-content-start align-items-center lg:w-2">
         <SideBar data={data}/>
-        <span style={{fontSize:"larger", color:"var(--accent)"}}>Tutor Tree</span>
+        <span style={{fontSize:"larger", color:"var(--accent)"}}>{courseData?<>{courseData.name}</>:<>Tutor Tree</>}</span>
       </div>
       <div className="lg:w-8 flex justify-content-center" >
       {

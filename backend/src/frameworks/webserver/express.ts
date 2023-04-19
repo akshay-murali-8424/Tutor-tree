@@ -9,7 +9,7 @@ import helmet from "helmet";
 const expressConfig = (app: Application) => {
 
     // Development logging
-    if (configKeys.nodeEnv == 'development') {
+    if (configKeys.NODE_ENV == 'development') {
         app.use(morgan('dev'));
     }
 

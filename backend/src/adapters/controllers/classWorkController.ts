@@ -6,7 +6,7 @@ import { SubmissionDbInterface } from "../../application/repositories/submission
 import { CloudServiceInterface } from "../../application/services/cloudServiceInterface";
 import { createWork, getAllClassWorks, getClassWork } from "../../application/useCases/classWork/classWorkCrud";
 import { streamFiles } from "../../application/useCases/classWork/streamFiles";
-import { createNewSubmission, getSubmissionById, getSubmissionsByWork } from "../../application/useCases/submissions/submissionCrud";
+import { createNewSubmission, getSubmissionById, getSubmissionsByWork, returnWorkSubmissions, setMark } from "../../application/useCases/submissions/submissionCrud";
 import { ClassWorkRepositoryMongoDb } from "../../frameworks/database/mongoDb/repositories/classWorkRepositoryMongoDb";
 import { StudentsRepositoryMongoDB } from "../../frameworks/database/mongoDb/repositories/studentsRepositoryMongoDB";
 import { SubmissionsRepositoryMongoDb } from "../../frameworks/database/mongoDb/repositories/submissionsRepositoryMongoDb";
@@ -67,7 +67,7 @@ export const classWorkController = (
    const attachments = req.files as Express.Multer.File[];
    const userId = req.userId
    if(userId){
-     await createNewSubmission(userId,classWorkId,attachments,cloudService,dbRepositorySubmission)
+      await createNewSubmission(userId,classWorkId,attachments,cloudService,dbRepositorySubmission)
      res.json({
       status:"success",
       message: "work submitted"
@@ -82,14 +82,32 @@ export const classWorkController = (
   })
 
   const getSubmission = asyncHandler(async(req:Request,res:Response)=>{
-    const {id} = req.params
-    const submission = await getSubmissionById(dbRepositorySubmission,id)
-    res.json(submission)
+    const {classWorkId} = req.params
+    const userId = req.userId
+    if(userId){
+      const submission = await getSubmissionById(dbRepositorySubmission,classWorkId,userId)
+      res.json(submission)
+    }
   })
   
   const returnSubmissions =asyncHandler(async(req:Request,res:Response)=>{
-
+    const {submissions}:{submissions:string[]} = req.body
+    await returnWorkSubmissions(submissions,dbRepositorySubmission)
+    res.json({
+      status:"success",
+      message:"submissions returned"
+    })
   }) 
+
+  const setSubmissionMark = asyncHandler(async(req:Request,res:Response)=>{
+     const {id} = req.params
+     const {mark}:{mark:number} = req.body
+     await setMark(id,mark,dbRepositorySubmission)
+     res.json({
+      status:"success",
+      message:"mark set"
+     })
+  })
 
 
   return {
@@ -100,6 +118,7 @@ export const classWorkController = (
     postSubmission,
     getSubmissions,
     returnSubmissions,
-    getSubmission
+    getSubmission,
+    setSubmissionMark
   };
 };

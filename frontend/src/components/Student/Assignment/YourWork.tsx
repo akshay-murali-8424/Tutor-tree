@@ -1,5 +1,4 @@
 import { Button } from 'primereact/button'
-import React from 'react'
 
 function YourWork({files}:{files:File[]}) {
   return (

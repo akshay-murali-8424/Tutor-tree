@@ -15,6 +15,8 @@ import { redisRepository } from "../../database/redis/setCache";
 import { referralCodeService } from "../../services/referralCodeService";
 import { redisCachingMiddleware } from "../middlewares/redisCachingMiddleware";
 import userAuthMiddleware from "../middlewares/userAuthMiddleware";
+import { groupMessageDbRepository } from "../../../application/repositories/groupMessageDbRepository";
+import { groupMessageRepositoryMongoDb } from "../../database/mongoDb/repositories/groupMessageRepositoryMongoDb";
 
 const coursesRouter=(redisClient:RedisClient)=>{
     const router = express.Router();
@@ -30,11 +32,12 @@ const coursesRouter=(redisClient:RedisClient)=>{
         userRepositoryMongoDB,
         studentsDbRepository,
         studentsRepositoryMongoDB,
+        groupMessageDbRepository,
+        groupMessageRepositoryMongoDb,
         redisClient)
 
     router.route('/')
     .post(userAuthMiddleware,controller.addNewCourse)
-    .get()
 
     router.route('/:id')
     .get(userAuthMiddleware,redisCachingMiddleware(redisClient,"course"),controller.getCourse)
@@ -49,6 +52,9 @@ const coursesRouter=(redisClient:RedisClient)=>{
 
     router.route('/:courseId/students')
     .post(userAuthMiddleware,controller.addStudent)
+
+    router.route('/:courseId/messages')
+    .get(userAuthMiddleware,controller.getGroupMessages)
     
     return router
 }

@@ -35,9 +35,14 @@ const classWorks=()=>{
     router.post('/:courseId/classWorks/:classWorkId/submissions',userAuthMiddleware,upload.array("attachments"),
     controller.postSubmission)
 
-    router.get('/:courseId/classWorks/:classWorkId/submissions',controller.getSubmissions)
+    router.route('/:courseId/classWorks/:classWorkId/submissions')
+    .get(controller.getSubmissions)
+    .patch(userAuthMiddleware,controller.returnSubmissions)
 
-    router.get('/:courseId/classWorks/:classWorkId/submissions/:id',controller.getSubmission)
+    router.route('/:courseId/classWorks/:classWorkId/submissions/:id')
+    .patch(userAuthMiddleware,controller.setSubmissionMark)
+
+    router.get('/:courseId/classWorks/:classWorkId/getSubmission',userAuthMiddleware,controller.getSubmission)
 
     return router
 }

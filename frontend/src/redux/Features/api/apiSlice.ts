@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { CourseInterface } from '../../../Types/CourseInterface';
 import { ICreateCoursePayload, IJoinCoursePayload, ILoginPayload, IRegisterPayload,} from '../../../Types/PayloadInterface';
-import { IBasicResponse, IGetClassWorkResponse, IGetPeople, IGetSubmissionsResponse, IGetUserAndCoursesResponse, ILoginResponse } from '../../../Types/ResponseInterface';
+import { IBasicResponse, IGetClassWorkResponse, IGetMessagesResponse, IGetPeople, IGetSubmissionsResponse, IGetUserAndCoursesResponse, ILoginResponse } from '../../../Types/ResponseInterface';
 import { UserInterface } from '../../../Types/UserInterface';
 import { baseUrl } from '../../../urls';
 
@@ -23,7 +23,7 @@ const baseQuery = fetchBaseQuery({
 export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery,
-  tagTypes: ['user', 'admin', 'course','students','teachers','classWorks','submissions'],
+  tagTypes: ['user', 'admin', 'course','students','teachers','classWorks','submissions','messages'],
   endpoints: (builder) => ({
     userLogin: builder.mutation<ILoginResponse, ILoginPayload>({
       query: (data) => ({
@@ -131,9 +131,35 @@ export const apiSlice = createApi({
       }),
       invalidatesTags:['submissions']
     }),
+    returnSubmissions:builder.mutation<IBasicResponse,{courseId:string | undefined,classWorkId:string | undefined,submissions:string[]}>({
+       query:({courseId,classWorkId,submissions})=>({
+        url:`courses/${courseId}/classWorks/${classWorkId}/submissions`,
+        method:'PATCH',
+        body:{submissions}
+      }),
+      invalidatesTags:['submissions']
+    }),
+    setSubmissionMark:builder.mutation({
+      query:({courseId,classWorkId,submissionId,mark})=>({
+        url:`courses/${courseId}/classWorks/${classWorkId}/submissions/${submissionId}`,
+        method:'PATCH',
+        body:mark
+      }),
+      invalidatesTags:['submissions']
+    }),
     getSubmissions:builder.query<IGetSubmissionsResponse[],{classWorkId:string | undefined,courseId:string | undefined}>({
-      query:({courseId,classWorkId})=>`/courses/${courseId}/classWorks/${classWorkId}/submissions`
-    })
+      query:({courseId,classWorkId})=>`/courses/${courseId}/classWorks/${classWorkId}/submissions`,
+      providesTags:['submissions']
+    }),
+    getSubmission:builder.query<IGetSubmissionsResponse,{classWorkId:string | undefined,courseId:string | undefined}>({
+      query:({courseId,classWorkId})=>`/courses/${courseId}/classWorks/${classWorkId}/getSubmission`,
+      providesTags:['submissions']
+    }),
+    getMessages:builder.query<IGetMessagesResponse[],{id:string | undefined}>({
+      query:({id})=>`/courses/${id}/messages`,
+      providesTags:['messages']
+    }),
+
   })
 })
 
@@ -156,7 +182,9 @@ export const {
   useGetClassWorkQuery,
   useSubmitAssignmentMutation,
   useGetSubmissionsQuery,
-  useLazyGetSubmissionsQuery
+  useGetSubmissionQuery,
+  useGetMessagesQuery,
+  useReturnSubmissionsMutation
 } = apiSlice
 
 

@@ -7,7 +7,8 @@ import FileUploader from "../../components/CreateWork/FileUploader";
 import ShowAssignment from "../../components/Student/Assignment/ShowAssignment";
 import YourWork from "../../components/Student/Assignment/YourWork";
 import NavBar from "../../components/User/UserNavBar/NavBar";
-import { useGetClassWorkQuery, useSubmitAssignmentMutation } from "../../redux/Features/api/apiSlice";
+import { useGetClassWorkQuery, useGetSubmissionQuery, useSubmitAssignmentMutation } from "../../redux/Features/api/apiSlice";
+import ShowSubmitted from "../../components/Student/Assignment/ShowSubmitted";
 
 function Assignment() {
   const {
@@ -45,6 +46,8 @@ function Assignment() {
     id=""
   }
   const {data,isLoading,isFetching,isSuccess} = useGetClassWorkQuery({courseId,id})
+  const {data:submissionData} = useGetSubmissionQuery({classWorkId:id,courseId})
+
   if(isSuccess){
   return (
     <>
@@ -52,8 +55,11 @@ function Assignment() {
      <div className="lg:w-7 mx-auto">
      <form onSubmit={handleSubmit(submitHandler)}>
       {data &&<ShowAssignment data={data}/> }
-     {files&&  <YourWork files={files}/>}
-      <FileUploader files={files} setFiles={setFiles}/>
+      {submissionData?.status==="assigned"?
+       <>{files &&  <YourWork files={files}/>}</>:
+       <>{submissionData?.attachments&& <ShowSubmitted attachments={submissionData?.attachments}/> }</>  
+      }
+      { submissionData?.status==="assigned" &&<FileUploader files={files} setFiles={setFiles}/> }
       </form>
       </div>
     </>

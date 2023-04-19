@@ -1,21 +1,26 @@
 import { SubmissionsRepositoryMongoDb } from "../../frameworks/database/mongoDb/repositories/submissionsRepositoryMongoDb";
-import { SubmissionInterface } from "../../types/submissionInterface";
 
 export const submissionDbRepository = (repository:ReturnType<SubmissionsRepositoryMongoDb>) => {
 
      const createSubmissions =async (submissions:any) =>await repository.createSubmissions(submissions)
 
-     const postSubmission = async(userId:string,attachments:string[]) => await repository.postSubmission(userId,attachments)
+     const postSubmission = async(userId:string,attachments:string[],classWork:string) => await repository.postSubmission(userId,attachments,classWork)
 
      const getSubmissions = async(classWork:string) => await repository.getSubmissions(classWork)
 
-     const getSubmission =async(submissionId:string) => await repository.getSubmission(submissionId)
+     const getSubmission =async(userId:string,classWork:string) => await repository.getSubmission(userId,classWork)
+
+     const returnSubmissions = async(submissionIds:string[]) => await repository.returnSubmissions(submissionIds)
+
+     const setMark = async(submissionId:string,mark:number) => await repository.setMark(submissionId,mark)
 
      return {
         createSubmissions,
         postSubmission,
         getSubmissions,
-        getSubmission
+        getSubmission,
+        returnSubmissions,
+        setMark
      }
 }
 
