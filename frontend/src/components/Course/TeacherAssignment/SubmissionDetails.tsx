@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { IGetSubmissionsResponse } from "../../../Types/ResponseInterface";
 import { InputNumber, InputNumberChangeEvent } from 'primereact/inputnumber';
+import { useGenerateAttachmentUrlMutation } from "../../../redux/Features/api/apiSlice";
+import { FcFile, FcPicture } from "react-icons/fc";
 
 function SubmissionDetails({
   submission,
@@ -16,6 +18,26 @@ function SubmissionDetails({
    }else{
     setMarkError('')
    }
+  }
+
+  const displayFileIcon=(ext:string)=>{
+    if(ext==="png"||ext==="jpg"||ext==="jpeg"){
+       return <FcPicture size="2rem"/>
+    }else{
+     return <FcFile size="2rem"/>  
+    }
+  }
+
+  const [generateUrl,{isLoading}] = useGenerateAttachmentUrlMutation()
+
+  const showFile=async(key:string)=>{
+   console.log(key)
+      try{
+        const res = await generateUrl({key}).unwrap()
+        window.open(res.url,"mozillaTab")
+      }catch(err:any){
+       console.log(err)
+      }
   }
 
   return (
@@ -48,7 +70,16 @@ function SubmissionDetails({
 
       </div>
       <div className="pl-6">
-        {submission?.attachments && submission.attachments}
+        {submission?.status!=="assigned" && <span className="text-lg font-semibold ml-5">Submission</span> }
+        {submission&&<div className="ml-5 mt-3 flex ">
+          {submission.attachments.map((attachment)=>{
+            return(
+             <div className='lg:w-6 flex align-items-center cursor-pointer'>
+             {displayFileIcon(attachment.name.split('.')[1])}
+              <span className="textGray text-sm"  onClick={()=>showFile(attachment.key)}>{attachment.name}</span></div>
+            )
+          })}
+          </div>}
       </div>
     </>
   );

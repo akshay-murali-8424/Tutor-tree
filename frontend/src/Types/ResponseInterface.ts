@@ -31,7 +31,7 @@ export interface IGetClassWorkResponse{
     description?:string,
     dueDate?:string | Date,
     postedOn:string,
-    attachments:string[] | [],
+    attachments:{key:string,name:string}[],
     totalMark?: number,
     _id:string,
     assignedBy:UserInterface
@@ -41,7 +41,7 @@ export interface IGetSubmissionsResponse{
     _id:string,
     userId:UserInterface,
     classWork:ClassWorkInterface,
-    attachments:string[],
+    attachments:{key:string,name:string}[],
     status: "assigned" | "submitted" | "returned"
 }
 

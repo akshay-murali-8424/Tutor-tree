@@ -14,7 +14,6 @@ import { userRepositoryMongoDB } from "../../database/mongoDb/repositories/userR
 import { redisRepository } from "../../database/redis/setCache";
 import { referralCodeService } from "../../services/referralCodeService";
 import { redisCachingMiddleware } from "../middlewares/redisCachingMiddleware";
-import userAuthMiddleware from "../middlewares/userAuthMiddleware";
 import { groupMessageDbRepository } from "../../../application/repositories/groupMessageDbRepository";
 import { groupMessageRepositoryMongoDb } from "../../database/mongoDb/repositories/groupMessageRepositoryMongoDb";
 
@@ -37,24 +36,24 @@ const coursesRouter=(redisClient:RedisClient)=>{
         redisClient)
 
     router.route('/')
-    .post(userAuthMiddleware,controller.addNewCourse)
+    .post(controller.addNewCourse)
 
     router.route('/:id')
-    .get(userAuthMiddleware,redisCachingMiddleware(redisClient,"course"),controller.getCourse)
+    .get(redisCachingMiddleware(redisClient,"course"),controller.getCourse)
     .patch(controller.modifyCourse)
     
-    router.post('/join/:refCode',userAuthMiddleware,controller.joinCourse)
+    router.post('/join/:refCode',controller.joinCourse)
 
-    router.get('/:id/people',userAuthMiddleware,controller.getPeople)
+    router.get('/:id/people',controller.getPeople)
 
     router.route('/:courseId/teachers')
-    .post(userAuthMiddleware,controller.addTeacher)
+    .post(controller.addTeacher)
 
     router.route('/:courseId/students')
-    .post(userAuthMiddleware,controller.addStudent)
+    .post(controller.addStudent)
 
     router.route('/:courseId/messages')
-    .get(userAuthMiddleware,controller.getGroupMessages)
+    .get(controller.getGroupMessages)
     
     return router
 }

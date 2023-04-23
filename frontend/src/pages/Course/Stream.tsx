@@ -24,7 +24,7 @@ function Stream() {
       <>
       <CourseTitleCard className={data.name} section={data.section}/>
 
-      <div className='grid mx-auto' style={{justifyContent:"space-between", width: "59.49%"}}>
+      <div className='grid mx-auto fadein animation-duration-1000' style={{justifyContent:"space-between", width: "59.49%"}}>
         <div className='col-3 '>
         <ReferralCode refCode={data.referralCode}/>
         </div>

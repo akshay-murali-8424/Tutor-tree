@@ -14,10 +14,9 @@ export const createWork = async(classWorks:ClassWorkInterface,
     classWorks.assignedBy = assignedBy
     if(attachments){
         classWorks.attachments = await Promise.all(
-        attachments.map(async(attachment)=>{
-            const {Key} = await cloudService.upload(attachment)
-            return Key
-        })
+        attachments.map(async(attachment)=>
+            await cloudService.upload(attachment)
+        )
       )
     }
     const students:any = await dbRepositoryStudents.getStudentIds(courseId)

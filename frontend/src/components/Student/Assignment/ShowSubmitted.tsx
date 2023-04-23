@@ -1,4 +1,7 @@
-function ShowSubmitted({attachments}:{attachments:string[]}) {
+
+
+function ShowSubmitted({attachments}:{attachments:{key:string,name:string}[]}) {
+
   return (
     <div className="border-round p-4 mb-3" style={{border: '0.0625rem solid #dadce0'}}>
         Submitted Assignment 
@@ -6,7 +9,7 @@ function ShowSubmitted({attachments}:{attachments:string[]}) {
         {attachments.map((attachment)=>{
               return (
                 <div className="pb-2">
-                <span className="text-sm primary">{attachment}</span>
+                <span className="text-sm primary">{attachment.name}</span>
                 </div>
               )   
         })}

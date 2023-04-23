@@ -1,5 +1,12 @@
 import mongoose, {Schema,model} from "mongoose"
 
+const assignmentSchema = new Schema(
+    {
+        name:String,
+        key:String
+    }
+)
+
 const classWorkSchema = new Schema(
     {
         title:{
@@ -17,7 +24,7 @@ const classWorkSchema = new Schema(
             default:Date.now
         },
         dueDate:Date,
-        attachments:[String],
+        attachments:[assignmentSchema],
         assignedBy:{
             type:mongoose.Schema.Types.ObjectId,
             ref:'User'

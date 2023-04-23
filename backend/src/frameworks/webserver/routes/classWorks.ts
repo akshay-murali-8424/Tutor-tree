@@ -9,7 +9,6 @@ import { studentsRepositoryMongoDB } from "../../database/mongoDb/repositories/s
 import { submissionsRepositoryMongoDb } from "../../database/mongoDb/repositories/submissionsRepositoryMongoDb";
 import { s3Service } from "../../services/s3Service";
 import upload from "../middlewares/multer";
-import userAuthMiddleware from "../middlewares/userAuthMiddleware";
 
 const classWorks=()=>{
     const router = express.Router();
@@ -24,25 +23,25 @@ const classWorks=()=>{
         studentsRepositoryMongoDB)
 
     router.route('/:courseId/classWorks')
-    .post(userAuthMiddleware,upload.array("attachments"),controller.createClassWork)
-    .get(userAuthMiddleware,controller.getAll)
+    .post(upload.array("attachments"),controller.createClassWork)
+    .get(controller.getAll)
 
     router.route('/:courseId/classWorks/:id')
-    .get(userAuthMiddleware,controller.getOne)
-
-    router.get('/stream-attachment/:key',controller.streamAttachedFiles)   
+    .get(controller.getOne) 
  
-    router.post('/:courseId/classWorks/:classWorkId/submissions',userAuthMiddleware,upload.array("attachments"),
+    router.post('/:courseId/classWorks/:classWorkId/submissions',upload.array("attachments"),
     controller.postSubmission)
 
     router.route('/:courseId/classWorks/:classWorkId/submissions')
     .get(controller.getSubmissions)
-    .patch(userAuthMiddleware,controller.returnSubmissions)
+    .patch(controller.returnSubmissions)
 
     router.route('/:courseId/classWorks/:classWorkId/submissions/:id')
-    .patch(userAuthMiddleware,controller.setSubmissionMark)
+    .patch(controller.setSubmissionMark)
 
-    router.get('/:courseId/classWorks/:classWorkId/getSubmission',userAuthMiddleware,controller.getSubmission)
+    router.get('/:courseId/classWorks/:classWorkId/getSubmission',controller.getSubmission)
+
+    router.post('/get-attachment/:key',controller.getAttachment)
 
     return router
 }

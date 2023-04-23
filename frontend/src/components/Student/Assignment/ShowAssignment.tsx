@@ -3,6 +3,8 @@ import { IGetClassWorkResponse } from '../../../Types/ResponseInterface'
 import parse from 'html-react-parser';
 import { FcFile,FcPicture } from "react-icons/fc";
 import { baseUrl } from '../../../urls';
+import { useGenerateAttachmentUrlMutation } from '../../../redux/Features/api/apiSlice';
+import { url } from 'inspector';
 
 
 function ShowAssignment({data}:{data:IGetClassWorkResponse}) {
@@ -12,6 +14,18 @@ function ShowAssignment({data}:{data:IGetClassWorkResponse}) {
      }else{
       return <FcFile size="2rem"/>  
      }
+   }
+
+   const [generateUrl,{isLoading}] = useGenerateAttachmentUrlMutation()
+
+   const showFile=async(key:string)=>{
+    console.log(key)
+       try{
+         const res = await generateUrl({key}).unwrap()
+         window.open(res.url,"mozillaTab")
+       }catch(err:any){
+        console.log(err)
+       }
    }
 
 
@@ -58,9 +72,9 @@ function ShowAssignment({data}:{data:IGetClassWorkResponse}) {
         data.attachments&&<div className="ml-5 mt-3 flex ">
           {data.attachments.map((attachment)=>{
             return(
-             <div className='lg:w-6 flex align-items-center cursor-pointer'> 
-             {displayFileIcon(attachment.split('.')[1])}
-             <a target="_blank" rel="noreferrer" href={`${baseUrl}/courses/stream-attachment/${attachment}`} style={{textDecoration:"none"}}><span className="textGray text-sm">{attachment}</span></a></div>
+             <div className='lg:w-6 flex align-items-center cursor-pointer'>
+             {displayFileIcon(attachment.name.split('.')[1])}
+              <span className="textGray text-sm"  onClick={()=>showFile(attachment.key)}>{attachment.name}</span></div>
             )
           })}
           </div>

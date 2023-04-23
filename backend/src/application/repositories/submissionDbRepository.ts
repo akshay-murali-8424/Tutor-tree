@@ -4,7 +4,7 @@ export const submissionDbRepository = (repository:ReturnType<SubmissionsReposito
 
      const createSubmissions =async (submissions:any) =>await repository.createSubmissions(submissions)
 
-     const postSubmission = async(userId:string,attachments:string[],classWork:string) => await repository.postSubmission(userId,attachments,classWork)
+     const postSubmission = async(userId:string,attachments:{key:string,name:string}[],classWork:string) => await repository.postSubmission(userId,attachments,classWork)
 
      const getSubmissions = async(classWork:string) => await repository.getSubmissions(classWork)
 

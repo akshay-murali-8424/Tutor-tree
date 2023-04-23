@@ -4,6 +4,6 @@ export interface ClassWorkInterface {
     course?:string,
     totalMark?:number | string,
     dueDate?:string,
-    attachments?: string [],
+    attachments?: {name:string,key:string} [],
     assignedBy?:string
 }

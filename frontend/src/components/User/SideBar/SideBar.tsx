@@ -10,8 +10,8 @@ import { CourseInterface } from "../../../Types/CourseInterface";
 
 function SideBar({data}:{data:IGetUserAndCoursesResponse | undefined}) {
     const [sideVisible, setSideVisible] = useState<boolean>(false);
-    let coursesAsStudent:CourseInterface[] | []= []
-    let coursesAsTeacher:CourseInterface[] | []= []
+    let coursesAsStudent:CourseInterface[] | [] = []
+    let coursesAsTeacher:CourseInterface[] | [] = []
     if(data){
       coursesAsStudent=data.coursesAsStudent
       coursesAsTeacher=data.coursesAsTeacher

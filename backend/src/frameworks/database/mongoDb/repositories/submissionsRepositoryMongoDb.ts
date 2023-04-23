@@ -5,7 +5,7 @@ export const submissionsRepositoryMongoDb = () =>{
 
     const createSubmissions = async(submissions:any) => await Submissions.insertMany(submissions)
 
-    const postSubmission = async(userId:string,attachments:string[],classWork:string) => await Submissions.updateOne({userId,classWork},{
+    const postSubmission = async(userId:string,attachments:{key:string,name:string}[],classWork:string) => await Submissions.updateOne({userId,classWork},{
         $set:{
             attachments,
             status:"submitted"

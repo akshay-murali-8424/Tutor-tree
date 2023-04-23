@@ -252,7 +252,7 @@ input[type=number] {
 
 ::-webkit-scrollbar
 {
-	width: 12px;
+	width: 8px;
 	background-color: #F5F5F5;
 }
 
@@ -278,4 +278,27 @@ input[type=number] {
     outline: 0 none;
     outline-offset: 0;
     box-shadow: 0 0 0 0.2rem var(--complementary) !important;
+}
+
+.primaryBackground{
+    background-color: var(--complementary);
+    color: #ffffff;
+}
+
+.accentBackground{
+    background-color: var(--accent);
+    color: #ffffff;
+}
+
+.p-dropdown:not(.p-disabled):hover {
+    border-color: var(--complementary) !important;
+}
+
+.p-dropdown:not(.p-disabled).p-focus{
+    box-shadow: 0 0 0 0.2rem var(--complementaryDim) !important;
+}
+
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight {
+    color: var(--complementary) !important;
+    background: var(--complementaryDim) !important;
 }

@@ -13,8 +13,11 @@ import { useLocation, useNavigate} from "react-router-dom";
 import { useGetCourseQuery, useGetUserAndCoursesQuery } from "../../../redux/Features/api/apiSlice";  
 import { ProgressSpinner } from "primereact/progressspinner";
 import CourseNavBarOptions from "./CourseNavBarOptions";
+import TeacherNavBarOptions from "./TeacherNavBarOptions";
+import StudentNavBarOptions from "./StudentNavBarOptions";
 
-function NavBar({course}:{course:boolean}) {
+function NavBar({course,teacher,student}:{course:boolean,teacher:boolean,student:boolean}) {
+
   const {pathname}= useLocation()
   const courseId = pathname.split('/')[3]
   const { data, isLoading, isFetching } = useGetUserAndCoursesQuery()
@@ -59,6 +62,11 @@ function NavBar({course}:{course:boolean}) {
       command:()=>{
         logoutConfirm()
       }
+    },{
+      label:"Settings",
+      command:()=>{
+         navigate('/settings')
+      }
     }
   ]
   if(isLoading || isFetching){
@@ -80,6 +88,12 @@ function NavBar({course}:{course:boolean}) {
       <div className="lg:w-8 flex justify-content-center" >
       {
         course && <CourseNavBarOptions/>
+      }
+      {
+        teacher && <TeacherNavBarOptions/>
+      }
+      {
+        student && <StudentNavBarOptions/>
       }
       </div>
       <div className="flex align-items-center lg:w-2 justify-content-end">
@@ -114,6 +128,12 @@ function NavBar({course}:{course:boolean}) {
     </div>
   );
   }
+}
+
+NavBar.defaultProps={
+  student:false,
+  course:false,
+  teacher:false
 }
 
 export default NavBar;

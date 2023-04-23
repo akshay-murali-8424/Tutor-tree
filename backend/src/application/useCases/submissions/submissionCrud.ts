@@ -10,10 +10,9 @@ export const createNewSubmission = async (
 ) => {
 
   const attachments = await Promise.all(
-    files.map(async (file) => {
-      const { Key } = await cloudService.upload(file);
-      return Key;
-    })
+    files.map(async (file) => 
+      await cloudService.upload(file)
+    )
   );
   await dbRepositorySubmission.postSubmission(student,attachments,classWork)
 };

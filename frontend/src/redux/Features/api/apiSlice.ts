@@ -159,7 +159,12 @@ export const apiSlice = createApi({
       query:({id})=>`/courses/${id}/messages`,
       providesTags:['messages']
     }),
-
+    generateAttachmentUrl:builder.mutation<{status:string,url:string},{key:string}>({
+      query:({key})=>({
+        url:`/courses/get-attachment/${key}`,
+        method:'POST',
+      })
+    }),
   })
 })
 
@@ -184,7 +189,8 @@ export const {
   useGetSubmissionsQuery,
   useGetSubmissionQuery,
   useGetMessagesQuery,
-  useReturnSubmissionsMutation
+  useReturnSubmissionsMutation,
+  useGenerateAttachmentUrlMutation
 } = apiSlice
 
 

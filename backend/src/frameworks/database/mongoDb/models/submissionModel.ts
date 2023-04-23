@@ -1,5 +1,12 @@
 import mongoose, { model, Schema } from "mongoose";
 
+const assignmentSchema = new Schema(
+    {
+        name:String,
+        key:String
+    }
+)
+
 const submissionSchema = new Schema(
     {
         userId:{
@@ -10,7 +17,7 @@ const submissionSchema = new Schema(
             type:mongoose.Schema.Types.ObjectId,
             ref:'ClassWork'
         },
-        attachments:[String],
+        attachments:[assignmentSchema],
         status:{
             type:String,
             enum:["assigned","submitted","returned"],

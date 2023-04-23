@@ -5,13 +5,13 @@ import { StudentsDbInterface } from "../../application/repositories/studentsDbRe
 import { SubmissionDbInterface } from "../../application/repositories/submissionDbRepository";
 import { CloudServiceInterface } from "../../application/services/cloudServiceInterface";
 import { createWork, getAllClassWorks, getClassWork } from "../../application/useCases/classWork/classWorkCrud";
-import { streamFiles } from "../../application/useCases/classWork/streamFiles";
 import { createNewSubmission, getSubmissionById, getSubmissionsByWork, returnWorkSubmissions, setMark } from "../../application/useCases/submissions/submissionCrud";
 import { ClassWorkRepositoryMongoDb } from "../../frameworks/database/mongoDb/repositories/classWorkRepositoryMongoDb";
 import { StudentsRepositoryMongoDB } from "../../frameworks/database/mongoDb/repositories/studentsRepositoryMongoDB";
 import { SubmissionsRepositoryMongoDb } from "../../frameworks/database/mongoDb/repositories/submissionsRepositoryMongoDb";
 import { CloudServiceImpl } from "../../frameworks/services/s3Service";
 import { ClassWorkInterface } from "../../types/classWorkInterface";
+import { getAttachmentUrl } from "../../application/useCases/classWork/getAttachmentUrl";
 
 export const classWorkController = (
   cloudServiceInterface: CloudServiceInterface,
@@ -34,7 +34,7 @@ export const classWorkController = (
     const {courseId} = req.params
     const classWork: ClassWorkInterface = req.body;
     const attachments = req.files as Express.Multer.File[];
-    const userId = req.userId
+      const userId = req.userId
     if(userId){
       await createWork(classWork, attachments, cloudService,dbRepositoryClassWork,userId,courseId,dbRepositoryStudents,dbRepositorySubmission);
       res.json({
@@ -56,10 +56,14 @@ export const classWorkController = (
     res.json(classWork)
   })
 
-  const streamAttachedFiles = asyncHandler(async(req:Request,res:Response)=>{
-    const {key} = req.params
-    const readStream = streamFiles(key,cloudService)
-    readStream.pipe(res)
+
+  const getAttachment = asyncHandler(async(req:Request,res:Response)=>{
+      const {key} = req.params
+      const url = await getAttachmentUrl(key,cloudService)
+      res.json({
+        status:"success",
+        url
+      })
   })
 
   const postSubmission = asyncHandler(async(req:Request,res:Response)=>{
@@ -114,11 +118,11 @@ export const classWorkController = (
     createClassWork,
     getAll,
     getOne,
-    streamAttachedFiles,
     postSubmission,
     getSubmissions,
     returnSubmissions,
     getSubmission,
-    setSubmissionMark
+    setSubmissionMark,
+    getAttachment
   };
 };

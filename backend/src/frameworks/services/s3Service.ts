@@ -1,36 +1,48 @@
-import S3 from 'aws-sdk/clients/s3';
-import fs from 'fs'
+import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import configKeys from '../../config';
+import  crypto from 'crypto'
 
-const s3 = new S3({
+const s3 = new S3Client({
+  credentials:{
+    accessKeyId:configKeys.AWS_ACCESS_KEY,
+    secretAccessKey:configKeys.AWS_SECRET_ACCESS_KEY
+   },
    region:configKeys.AWS_BUCKET_REGION,
-   accessKeyId:configKeys.AWS_ACCESS_KEY,
-   secretAccessKey:configKeys.AWS_SECRET_ACCESS_KEY
-})
+}) 
+
+const randomImageName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex')
 
 
 export const s3Service= ()=>{
-    const uploadFile = (file:any) => {
-        const fileStream = fs.createReadStream(file.path);
-        const uploadParams = {
-          Bucket: configKeys.AWS_BUCKET_NAME,
-          Body: fileStream,
-          Key: file.filename,
-        };
-        return s3.upload(uploadParams).promise();
+    const uploadFile = async(file:Express.Multer.File) => {
+        const key = randomImageName() 
+       const params = {
+        Bucket:configKeys.AWS_BUCKET_NAME,
+        Key:key,
+        Body:file.buffer,
+        ContentType:file.mimetype
+       }
+       const command = new PutObjectCommand(params)
+       await s3.send(command)
+       return {
+        name:file.originalname,
+        key
+       }
     }
 
-    const getFileStream = (fileKey:string) => {
-        const downloadParams = {
-          Key: fileKey,
-          Bucket: configKeys.AWS_BUCKET_NAME,
-        };
-        return s3.getObject(downloadParams).createReadStream();
+    const getFile = async(fileKey:string) => {
+        const getObjectParams = {
+            Bucket:configKeys.AWS_BUCKET_NAME,
+            Key:fileKey
+        }
+        const command = new GetObjectCommand(getObjectParams)
+        return await getSignedUrl(s3,command,{expiresIn:60000}) 
     };
     
     return {
         uploadFile,
-        getFileStream
+        getFile
     }
 }
 
