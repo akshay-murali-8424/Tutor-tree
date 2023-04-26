@@ -5,5 +5,6 @@ export interface ClassWorkInterface {
     totalMark?:number | string,
     dueDate?:string,
     attachments?: {name:string,key:string} [],
-    assignedBy?:string
+    assignedBy?:string,
+    assigned:Number
 }

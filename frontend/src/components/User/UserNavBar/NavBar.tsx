@@ -10,11 +10,12 @@ import { confirmDialog, ConfirmDialog } from 'primereact/confirmdialog'
 import { useDispatch } from "react-redux";
 import { deleteToken } from "../../../redux/Features/reducers/userAuthSlice";
 import { useLocation, useNavigate} from "react-router-dom";
-import { useGetCourseQuery, useGetUserAndCoursesQuery } from "../../../redux/Features/api/apiSlice";  
+import {  useGetUserAndCoursesQuery } from "../../../redux/Features/api/apiSlice";  
 import { ProgressSpinner } from "primereact/progressspinner";
 import CourseNavBarOptions from "./CourseNavBarOptions";
 import TeacherNavBarOptions from "./TeacherNavBarOptions";
 import StudentNavBarOptions from "./StudentNavBarOptions";
+import { useGetCourseQuery } from "../../../redux/Features/api/courseApiSlice";
 
 function NavBar({course,teacher,student}:{course:boolean,teacher:boolean,student:boolean}) {
 

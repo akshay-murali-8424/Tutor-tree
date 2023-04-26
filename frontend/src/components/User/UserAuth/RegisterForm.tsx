@@ -5,11 +5,10 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { IRegisterPayload } from "../../../Types/PayloadInterface";
-import {  useUserRegisterMutation } from "../../../redux/Features/api/apiSlice";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { ILoginResponse } from "../../../Types/ResponseInterface";
 import { setToken } from "../../../redux/Features/reducers/userAuthSlice";
+import { useUserRegisterMutation } from "../../../redux/Features/api/authApiSlice";
 
 
         

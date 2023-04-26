@@ -4,6 +4,7 @@ export {}
     namespace Express {
       interface Request {
         userId?:string;
+        course?:string
       }
     }
   }

@@ -1,20 +1,19 @@
 import mongoose, {Schema,model} from "mongoose"
 
-const assignmentSchema = new Schema(
+const attachmentSchema = new Schema(
     {
         name:String,
         key:String
     }
 )
 
-const classWorkSchema = new Schema(
+const studyMaterialSchema = new Schema(
     {
         title:{
             type:String,
             required: [true,"please add a title"]
         },
         description:String,
-        totalMark:Number,
         course:{
             type:mongoose.Schema.Types.ObjectId,
             ref:'Course'
@@ -23,22 +22,12 @@ const classWorkSchema = new Schema(
             type:Date,
             default:Date.now
         },
-        dueDate:Date,
-        attachments:[assignmentSchema],
+        attachments:[attachmentSchema],
         assignedBy:{
             type:mongoose.Schema.Types.ObjectId,
             ref:'User'
         },
-        assigned:Number,
-        submitted:{
-            type:Number,
-            default:0
-        },
-        returned:{
-            type:Number,
-            default:0
-        }
     },
 )
-const ClassWork = model("ClassWork",classWorkSchema,"classWorks")
-export default ClassWork
+const Material = model("Material",studyMaterialSchema,"materials")
+export default Material

@@ -8,6 +8,7 @@ import Assignment from './pages/Course/Assignment';
 import TeacherAssignment from './pages/Course/TeacherAssignment';
 import StudentRouter from './routes/student/StudentRouter';
 import TeacherRouter from './routes/teacher/TeacherRouter';
+import CreateMaterial from './pages/Course/CreateMaterial';
 
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
         <Route path='/t/*' element={<TeacherRouter/>}/>
         <Route path='/course/*' element={<CourseRouter/>}/>
         <Route path='/course/create/:id' element={<CreateWork/>}/>
+        <Route path='/course/createMaterial/:id' element={<CreateMaterial/>}/>
         <Route path='/course/work/:courseId/a/:id' element={<Assignment/>}/>
         <Route path='/course/work/:courseId/ta/:id' element={<TeacherAssignment/>}/>
       </Routes>

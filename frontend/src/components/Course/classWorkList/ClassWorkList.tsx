@@ -4,6 +4,8 @@ import { IGetClassWorkResponse } from '../../../Types/ResponseInterface'
 import NoClassWorkSvg from './NoClassWorkSvg'
 
 function ClassWorkList({data,user}:{data:IGetClassWorkResponse[],user:string}) {
+  const today = new Date().getTime()
+  console.log(today)
   const {pathname}= useLocation()
   const page = pathname.split('/')[2]
   const getUrl = (courseId:string,workId:string) =>{
@@ -31,7 +33,8 @@ function ClassWorkList({data,user}:{data:IGetClassWorkResponse[],user:string}) {
         <span className='accent text-sm pl-2'>{classWork.title}</span>
         </div>
         <div>
-          <span className='textGray text-xs'>{classWork.dueDate?`Due on ${(new Date(classWork.dueDate)).toLocaleString("EN-IN")}`:"No due date"}</span> 
+          <span className='textGray text-xs'>{classWork.dueDate?`Due on ${(new Date(classWork.dueDate)).toLocaleString("EN-IN")}`:"No due date"}</span> <br />
+          <span className="authErrors text-sm">{classWork.dueDate&&(new Date(classWork.dueDate)).getTime()<today&& <>It has been past the deadline.</>}</span>
         </div>
         </div>
         </Link>

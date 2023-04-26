@@ -22,6 +22,9 @@ export const userRepositoryMongoDB = () => {
   const getUserById = async (id: string) =>
     await User.findById(id).populate(["coursesAsStudent", "coursesAsTeacher"]);
 
+  const getUser = async (id: string) =>
+   await User.findById(id)
+
   const addCourseAsTeacher = async (_id: string, courseId: string) =>
     await User.updateOne(
       { _id },
@@ -63,7 +66,8 @@ export const userRepositoryMongoDB = () => {
     addCourseAsTeacher,
     isUserTeacher,
     addCourseAsStudent,
-    isUserStudent
+    isUserStudent,
+    getUser
   };
 };
 

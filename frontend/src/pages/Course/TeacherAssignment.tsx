@@ -4,12 +4,13 @@ import { useSelector } from "react-redux";
 import { Navigate, useParams } from "react-router-dom";
 import TeacherAssignmentSideBar from "../../components/Course/TeacherAssignment/TeacherAssignmentSideBar";
 import NavBar from "../../components/User/UserNavBar/NavBar";
-import { useGetSubmissionsQuery, useReturnSubmissionsMutation} from "../../redux/Features/api/apiSlice";
 import { selectuserAuth } from "../../redux/Features/reducers/userAuthSlice";
 import { IGetSubmissionsResponse } from "../../Types/ResponseInterface";
 import { Splitter, SplitterPanel } from "primereact/splitter";
 import SubmissionDetails from "../../components/Course/TeacherAssignment/SubmissionDetails";
 import { toast } from "react-hot-toast";
+import SubmissionReport from "../../components/Course/TeacherAssignment/SubmissionReport";
+import { useGetSubmissionsQuery, useReturnSubmissionsMutation } from "../../redux/Features/api/submissionApiSlice";
 
 function TeacherAssignment() {
   const { token } = useSelector(selectuserAuth);
@@ -22,7 +23,6 @@ function TeacherAssignment() {
   const [returnSubmission,{isLoading}] = useReturnSubmissionsMutation()
 
   const returnHandler = async() =>{
-    console.log(selectedSubmissions)
     if(!isLoading){
       try{
         const res = await returnSubmission({courseId,classWorkId,submissions:selectedSubmissions}).unwrap()
@@ -62,7 +62,8 @@ function TeacherAssignment() {
           </SplitterPanel>
           <SplitterPanel size={75} minSize={60}>
           
-          <SubmissionDetails submission={submission} />  
+          {submission?<SubmissionDetails submission={submission} />:
+          <SubmissionReport/>}  
           </SplitterPanel>
         </Splitter>
       </>

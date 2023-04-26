@@ -71,7 +71,7 @@ export const classWorkController = (
    const attachments = req.files as Express.Multer.File[];
    const userId = req.userId
    if(userId){
-      await createNewSubmission(userId,classWorkId,attachments,cloudService,dbRepositorySubmission)
+      await createNewSubmission(userId,classWorkId,attachments,cloudService,dbRepositorySubmission,dbRepositoryClassWork)
      res.json({
       status:"success",
       message: "work submitted"
@@ -96,7 +96,8 @@ export const classWorkController = (
   
   const returnSubmissions =asyncHandler(async(req:Request,res:Response)=>{
     const {submissions}:{submissions:string[]} = req.body
-    await returnWorkSubmissions(submissions,dbRepositorySubmission)
+    const {classWorkId} = req.params
+    await returnWorkSubmissions(classWorkId,submissions,dbRepositorySubmission,dbRepositoryClassWork)
     res.json({
       status:"success",
       message:"submissions returned"

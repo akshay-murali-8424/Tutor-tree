@@ -34,7 +34,10 @@ export interface IGetClassWorkResponse{
     attachments:{key:string,name:string}[],
     totalMark?: number,
     _id:string,
-    assignedBy:UserInterface
+    assignedBy:UserInterface,
+    assigned:number,
+    returned:number,
+    submitted:number
 }
 
 export interface IGetSubmissionsResponse{

@@ -7,7 +7,7 @@ import { useGenerateAttachmentUrlMutation } from '../../../redux/Features/api/ap
 import { url } from 'inspector';
 
 
-function ShowAssignment({data}:{data:IGetClassWorkResponse}) {
+function ShowAssignment({data,mt}:{data:IGetClassWorkResponse,mt:number}) {
    const displayFileIcon=(ext:string)=>{
      if(ext==="png"||ext==="jpg"||ext==="jpeg"){
         return <FcPicture size="2rem"/>
@@ -32,7 +32,7 @@ function ShowAssignment({data}:{data:IGetClassWorkResponse}) {
 
   return (
     <div
-    className=" mx-auto mt-6 border-round "
+    className={`mx-auto mt-${mt} border-round`} 
 
   >
     <div className="col-12 border-round mb-5 p-4" style={{border: '0.0625rem solid #dadce0'}}>
@@ -74,7 +74,7 @@ function ShowAssignment({data}:{data:IGetClassWorkResponse}) {
             return(
              <div className='lg:w-6 flex align-items-center cursor-pointer'>
              {displayFileIcon(attachment.name.split('.')[1])}
-              <span className="textGray text-sm"  onClick={()=>showFile(attachment.key)}>{attachment.name}</span></div>
+              <span className="hoverText textGray text-sm"  onClick={()=>showFile(attachment.key)}>{attachment.name}</span></div>
             )
           })}
           </div>

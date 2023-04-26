@@ -6,9 +6,9 @@ import { InputText } from 'primereact/inputtext';
 import { useForm } from 'react-hook-form';
 import { IJoinCoursePayload } from '../../../Types/PayloadInterface';
 import { IBasicResponse } from '../../../Types/ResponseInterface';
-import { useJoinClassMutation } from '../../../redux/Features/api/apiSlice';
 import { Button } from 'primereact/button';
 import { toast } from 'react-hot-toast';
+import { useJoinClassMutation } from '../../../redux/Features/api/courseApiSlice';
 
 const schema = yup.object().shape({
   refCode: yup.string().required("Please provide your referral code"),

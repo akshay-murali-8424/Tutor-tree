@@ -5,9 +5,9 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from 'react-hook-form';
-import { useCreateClassMutation } from '../../../redux/Features/api/apiSlice';
 import { ICreateCoursePayload } from '../../../Types/PayloadInterface';
 import { IBasicResponse } from '../../../Types/ResponseInterface';
+import { useCreateClassMutation } from '../../../redux/Features/api/courseApiSlice';
 
 
 const schema = yup.object().shape({

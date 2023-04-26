@@ -1,9 +1,8 @@
 import { GoogleLogin } from '@react-oauth/google';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useSignInWithGoogleMutation } from '../../../redux/Features/api/apiSlice';
 import { setToken } from '../../../redux/Features/reducers/userAuthSlice';
-import { ILoginResponse } from '../../../Types/ResponseInterface';
+import { useSignInWithGoogleMutation } from '../../../redux/Features/api/authApiSlice';
 
 
 

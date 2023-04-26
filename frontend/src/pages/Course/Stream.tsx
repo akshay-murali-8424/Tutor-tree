@@ -4,7 +4,8 @@ import AnnouncementTab from '../../components/Course/announcementTab/Announcemen
 import ClassWorkList from '../../components/Course/classWorkList/ClassWorkList';
 import CourseTitleCard from '../../components/Course/CourseTitleCard/CourseTitleCard';
 import ReferralCode from '../../components/Course/referalCode/ReferralCode';
-import { useGetClassWorksQuery, useGetCourseQuery } from '../../redux/Features/api/apiSlice';
+import { useGetCourseQuery } from '../../redux/Features/api/courseApiSlice';
+import { useGetClassWorksQuery } from '../../redux/Features/api/classWorkApiSlice';
 
 function Stream() {
   let {id}=useParams<string>()

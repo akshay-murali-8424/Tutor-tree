@@ -5,11 +5,12 @@ import { Dispatch, SetStateAction, useState } from "react";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { useAddStudentMutation, useAddTeacherMutation, useFindUserByEmailMutation } from "../../../redux/Features/api/apiSlice";
+import {  useFindUserByEmailMutation } from "../../../redux/Features/api/apiSlice";
 import { toast } from "react-hot-toast";
 import { UserInterface } from "../../../Types/UserInterface";
 import { Avatar } from "primereact/avatar";
 import { useParams } from "react-router-dom";
+import { useAddStudentMutation, useAddTeacherMutation } from "../../../redux/Features/api/courseApiSlice";
 
 function AddPeopleModal({peopleVisible,setPeopleVisible,type}:{peopleVisible:boolean,setPeopleVisible:Dispatch<SetStateAction<boolean>>,type:"Teacher"|"Student"}) {
   const schema = yup.object().shape({

@@ -17,13 +17,24 @@ const submissionSchema = new Schema(
             type:mongoose.Schema.Types.ObjectId,
             ref:'ClassWork'
         },
+        course:{
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'Course'
+        },
         attachments:[assignmentSchema],
         status:{
             type:String,
             enum:["assigned","submitted","returned"],
             default:"assigned"
         },
-        mark:Number
+        mark:Number,
+        assignedDate:{
+            type:Date,
+            default:Date.now
+        },
+        dueDate:{
+            type:Date
+        }
     }
 )
 

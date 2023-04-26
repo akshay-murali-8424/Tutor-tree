@@ -7,8 +7,9 @@ import FileUploader from "../../components/CreateWork/FileUploader";
 import ShowAssignment from "../../components/Student/Assignment/ShowAssignment";
 import YourWork from "../../components/Student/Assignment/YourWork";
 import NavBar from "../../components/User/UserNavBar/NavBar";
-import { useGetClassWorkQuery, useGetSubmissionQuery, useSubmitAssignmentMutation } from "../../redux/Features/api/apiSlice";
 import ShowSubmitted from "../../components/Student/Assignment/ShowSubmitted";
+import { useGetClassWorkQuery } from "../../redux/Features/api/classWorkApiSlice";
+import { useGetSubmissionQuery, useSubmitAssignmentMutation } from "../../redux/Features/api/submissionApiSlice";
 
 function Assignment() {
   const {
@@ -54,7 +55,7 @@ function Assignment() {
       <NavBar course={false} />
      <div className="lg:w-7 mx-auto">
      <form onSubmit={handleSubmit(submitHandler)}>
-      {data &&<ShowAssignment data={data}/> }
+      {data &&<ShowAssignment data={data} mt={6}/> }
       {submissionData?.status==="assigned"?
        <>{files &&  <YourWork files={files}/>}</>:
        <>{submissionData?.attachments&& <ShowSubmitted attachments={submissionData?.attachments}/> }</>  

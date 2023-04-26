@@ -9,10 +9,22 @@ export const classWorkDbRepository = (repository:ReturnType<ClassWorkRepositoryM
 
     const getOne = async(id:string) => await repository.getOne(id)
 
+    const decrementAssignedCount = async(id:string) => await repository.decrementAssignedCount(id)
+
+    const decrementSubmissionCount = async(id:string,count:number) => await repository.decrementSubmissionCount(id,count)
+
+    const getAllReviewed = async(courseIds:string[]) => await repository.getAllReviewed(courseIds)
+
+    const getAllNotReviewed =async (courseIds:string[]) => await repository.getAllNotReviewed(courseIds)
+
     return {
         createWork,
         getAll,
-        getOne
+        getOne,
+        decrementAssignedCount,
+        decrementSubmissionCount,
+        getAllNotReviewed,
+        getAllReviewed
     }
 
 }

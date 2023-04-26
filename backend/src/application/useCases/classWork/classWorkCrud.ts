@@ -1,4 +1,6 @@
 import { ClassWorkInterface } from "../../../types/classWorkInterface";
+import { HttpStatus } from "../../../types/httpStatus";
+import AppError from "../../../utils/appError";
 import { ClassWorkDbRepository } from "../../repositories/classWorkDbRepository";
 import { StudentsDbInterface } from "../../repositories/studentsDbRepository";
 import { SubmissionDbInterface } from "../../repositories/submissionDbRepository";
@@ -20,9 +22,14 @@ export const createWork = async(classWorks:ClassWorkInterface,
       )
     }
     const students:any = await dbRepositoryStudents.getStudentIds(courseId)
-    const {_id} =await dbRepositoryClassWork.createWork(classWorks)
+    if(!students)
+      throw new AppError("there are no students in the class",HttpStatus.NOT_ACCEPTABLE)
+    classWorks.assigned = students.length
+    const {_id,dueDate} =await dbRepositoryClassWork.createWork(classWorks)
     students?.forEach((student:any)=>{
          student.classWork = _id
+         student.course = courseId
+         student.dueDate = dueDate
     })
     await dbRepositorySubmissions.createSubmissions(students)
 }

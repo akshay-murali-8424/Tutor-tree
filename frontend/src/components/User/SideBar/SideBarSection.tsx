@@ -28,7 +28,7 @@ function SideBarSection({
       <div className="mt-1">
 
       {title==="Teaching"?
-      <Link className={`sidebarOptions ${isReviewActive}`} to={`/t/to-review`}>
+      <Link className={`sidebarOptions ${isReviewActive}`} to={`/t/to-review?course=all`}>
               <Avatar
                 icon="pi pi-user-edit"
                 size="normal"

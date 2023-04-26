@@ -6,9 +6,12 @@ export const cloudServiceInterface = (service:ReturnType<CloudServiceImpl>) =>{
 
     const getFile = async(fileKey:string) =>await service.getFile(fileKey)
 
+    const removeFile = async(fileKey:string)=> await service.removeFile(fileKey)
+
     return {
         upload,
-        getFile
+        getFile,
+        removeFile
     }
 }
 

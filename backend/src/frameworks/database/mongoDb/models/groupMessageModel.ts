@@ -18,7 +18,7 @@ const groupMessageSchema = new Schema(
         },
         sentedTime:{
             type:Date,
-            default:Date.now()
+            default:Date.now
         }
     }
 )

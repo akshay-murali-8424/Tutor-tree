@@ -1,7 +1,8 @@
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { useParams } from 'react-router-dom'
 import PeopleList from '../../components/Course/PeopleList/PeopleList';
-import { useGetPeopleQuery, useGetUserAndCoursesQuery } from '../../redux/Features/api/apiSlice';
+import {  useGetUserAndCoursesQuery } from '../../redux/Features/api/apiSlice';
+import { useGetPeopleQuery } from '../../redux/Features/api/courseApiSlice';
 
 
 function People() {

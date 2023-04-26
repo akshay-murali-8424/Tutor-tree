@@ -15,10 +15,10 @@ switch(title){
   return (
    <>
     <div className={`flex align-items-center p-3 classOption ${toReviewClass}`}>
-      <Link to={`to-review`} style={{textDecoration:"none"}} > <span className="text-sm">To Review</span></Link>
+      <Link to={`to-review?course=all`} style={{textDecoration:"none"}} > <span className="text-sm">To Review</span></Link>
     </div>  
     <div className={`flex align-items-center p-3 classOption ${reviewedClass}`}>
-    <Link to={`reviewed`} style={{textDecoration:"none"}}><span className="text-sm">Reviewed</span></Link>
+    <Link to={`reviewed?course=all`} style={{textDecoration:"none"}}><span className="text-sm">Reviewed</span></Link>
     </div>
   </>
   )

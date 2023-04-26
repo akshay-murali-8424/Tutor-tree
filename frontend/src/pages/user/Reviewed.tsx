@@ -1,18 +1,18 @@
 import { useState } from "react";
 import { Dropdown } from 'primereact/dropdown';
-import { useGetTeacherNotReviewedWorksQuery, useGetUserAndCoursesQuery } from "../../redux/Features/api/apiSlice";
+import {  useGetTeacherReviewedWorksQuery, useGetUserAndCoursesQuery } from "../../redux/Features/api/apiSlice";
 import { CourseInterface } from "../../Types/CourseInterface";
 import { useSearchParams } from "react-router-dom";
 import ClassWorkList from "../../components/Course/classWorkList/ClassWorkList";
         
 
-function ToReview() {
+function Reviewed() {
   const { data, isLoading, isFetching,isSuccess,error } = useGetUserAndCoursesQuery()
   let courses:CourseInterface| {name:string,_id:string}[]  = []
   const [searchParams,setSearchParams] = useSearchParams()
   const classWorkId = searchParams.get("course")
 
-  const {data:classWorks,isSuccess:isClassWorkSuccess} = useGetTeacherNotReviewedWorksQuery({id:classWorkId})
+  const {data:classWorks,isSuccess:isClassWorkSuccess} = useGetTeacherReviewedWorksQuery({id:classWorkId})
   if(isClassWorkSuccess)
    console.log(classWorks)
 
@@ -43,11 +43,11 @@ function ToReview() {
       <span>Progress</span>
     )
   }else{
-    console.log(error)
+    
     return(
       <div></div>
     )
   }
 }
 
-export default ToReview
+export default Reviewed

@@ -1,4 +1,4 @@
-import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
+import { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import configKeys from '../../config';
 import  crypto from 'crypto'
@@ -39,10 +39,20 @@ export const s3Service= ()=>{
         const command = new GetObjectCommand(getObjectParams)
         return await getSignedUrl(s3,command,{expiresIn:60000}) 
     };
+
+    const removeFile = async (fileKey:string) => {
+        const params = {
+            Bucket:configKeys.AWS_BUCKET_NAME,
+            Key:fileKey
+        }
+        const command = new DeleteObjectCommand(params)
+        await s3.send(command)
+    }
     
     return {
         uploadFile,
-        getFile
+        getFile,
+        removeFile
     }
 }
 

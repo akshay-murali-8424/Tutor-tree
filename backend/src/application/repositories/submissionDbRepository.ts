@@ -14,13 +14,19 @@ export const submissionDbRepository = (repository:ReturnType<SubmissionsReposito
 
      const setMark = async(submissionId:string,mark:number) => await repository.setMark(submissionId,mark)
 
+     const getAllAssignedWorks = async(courseIds:string[],user:string)=>await repository.getAllAssignedWorks(courseIds,user)
+
+     const getAllSubmittedWorks = async(courseIds:string[],user:string)=>await repository.getAllSubmittedWorks(courseIds,user)
+
      return {
         createSubmissions,
         postSubmission,
         getSubmissions,
         getSubmission,
         returnSubmissions,
-        setMark
+        setMark,
+        getAllAssignedWorks,
+        getAllSubmittedWorks
      }
 }
 

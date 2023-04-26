@@ -25,7 +25,6 @@ const socketConfig = (io:Server<ClientToServerEvents,ServerToClientEvents,InterS
         socket.on("send_message",async(data)=>{
             if(socket.data.userId){
                 const res = await addGroupMessage(data.course,socket.data.userId,data.message)
-                console.log(res)
                 socket.to(data.course).emit("receive_message",res)
             }
         })

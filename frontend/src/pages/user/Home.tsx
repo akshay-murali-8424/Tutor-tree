@@ -11,6 +11,7 @@ import { Button } from 'primereact/button';
 function Home() {
   const {token}=useSelector(selectuserAuth)
   const { data, isLoading, isFetching } = useGetUserAndCoursesQuery()
+  
   if(token){
     if(isLoading || isFetching){
       return(
@@ -30,7 +31,7 @@ function Home() {
         <>
         <NavBar course={false}/>
         <div className='p-2 flex'>
-         {data.coursesAsTeacher.length!==0 && <div className='m-1'><Link to={"/t/to-review"} style={{textDecoration:"none"}}><Button className='textButt' text>
+         {data.coursesAsTeacher.length!==0 && <div className='m-1'><Link to={"/t/to-review?course=all"} style={{textDecoration:"none"}}><Button className='textButt' text>
           <i className="pi pi-user-edit mr-2"></i>
              <span>To Review</span></Button></Link></div> }
           {data.coursesAsStudent.length!==0 && <div className='m-1' >

@@ -2,7 +2,7 @@ import { RedisClient } from "../../app";
 import { CourseDbInterface } from "../../application/repositories/courseDbRepository";
 import { CourseRepositoryMongoDB } from "../../frameworks/database/mongoDb/repositories/courseRepositoryMongoDB";
 import asyncHandler from 'express-async-handler'
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import { CacheRepositoryInterface } from "../../application/repositories/cacheRepositoryInterface";
 import { RedisRepository } from "../../frameworks/database/redis/setCache";
 import { addCourse, editCourse, getCourseById } from "../../application/useCases/courses/courseCrud";
@@ -48,7 +48,6 @@ cacheClient:RedisClient
    
     const addNewCourse=asyncHandler(async(req:Request,res:Response)=>{
        const {name,section,subject}:{name:string,section:string,subject:string}= req.body
-       console.log(req.body)
        const userId = req.userId 
        if(userId){
         await addCourse(name,section,subject,userId,dbRepositoryCourse,dbRepositoryTeachers,dbRepositoryUser,referralService)

@@ -1,7 +1,6 @@
 import CreateWorkNavBar from "../../components/CreateWork/CreateWorkNavBar"
 import FileUploader from "../../components/CreateWork/FileUploader"
 import TextEditor from "../../components/CreateWork/TextEditor"
-import WorkAssignBar from "../../components/CreateWork/WorkAssignBar";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
@@ -25,7 +24,6 @@ function CreateWork() {
   });
 
 const [attachments,setAttachments] = useState<any>()
-let [dueDate, setDueDate] = useState<string | Date | undefined | Date[]>();
 const [description, setDescription] = useState<string>();
 
 const {id:courseId}=useParams<string>()
@@ -49,10 +47,6 @@ const submitHandler = async(data:{title:string,totalMark:number | string})=>{
           if(attachments){
             Object.values(attachments).forEach((attachments:any)=>classWork.append("attachments",attachments))
           }
-          if(dueDate){
-            dueDate = dueDate + ""
-            classWork.append("dueDate",dueDate)
-          }
         const res = await createClassWork({courseId,classWork}).unwrap()
         if(res.status==="success"){
            navigate(-1)
@@ -74,7 +68,7 @@ const submitHandler = async(data:{title:string,totalMark:number | string})=>{
   return (  
     <>
       <form onSubmit={handleSubmit(submitHandler)}>
-    <CreateWorkNavBar type="Assignment"/>
+    <CreateWorkNavBar type="Study Material"   />
     <div className="flex">
       <div className="lg:w-10 grayBackground p-5" style={{ 
       borderRight: "0.0625rem solid #e0e0e0", minHeight:"92vh"}}>
@@ -94,9 +88,6 @@ const submitHandler = async(data:{title:string,totalMark:number | string})=>{
         border: "0.0625rem solid #e0e0e0"}}>
          <FileUploader files={attachments} setFiles={setAttachments}/>
         </div>
-      </div>
-      <div className="p-4">
-         <WorkAssignBar datetime12h={dueDate} setDateTime12h={setDueDate} register={register} errors={errors}/>
       </div>
     </div>
       </form>

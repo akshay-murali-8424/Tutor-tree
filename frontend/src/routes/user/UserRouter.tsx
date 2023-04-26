@@ -8,7 +8,7 @@ import Settings from '../../pages/user/Settings'
 
 function UserRouter() {
     return(
-      <div style={{backgroundColor:"#fff"}}>
+      <div>
       <Routes>
         <Route path='/login' element={<UserLogin/>}/>
         <Route path='/register' element={<UserRegister/>}/>

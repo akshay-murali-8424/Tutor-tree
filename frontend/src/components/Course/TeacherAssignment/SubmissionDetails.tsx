@@ -7,7 +7,7 @@ import { FcFile, FcPicture } from "react-icons/fc";
 function SubmissionDetails({
   submission,
 }: {
-  submission: IGetSubmissionsResponse | undefined;
+  submission: IGetSubmissionsResponse;
 }) {
 
   const [markError,setMarkError] = useState<string>('')
@@ -70,7 +70,7 @@ function SubmissionDetails({
 
       </div>
       <div className="pl-6">
-        {submission?.status!=="assigned" && <span className="text-lg font-semibold ml-5">Submission</span> }
+        {submission&&submission?.status!=="assigned" && <span className="text-lg font-semibold ml-5">Submission</span> }
         {submission&&<div className="ml-5 mt-3 flex ">
           {submission.attachments.map((attachment)=>{
             return(
